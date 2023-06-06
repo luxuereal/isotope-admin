@@ -44,16 +44,8 @@ const UserTable: React.FC<Users> = ({ users }) => {
     const getSeverity = (type: Type) => type.is_disabled ? 'success' : 'danger';
 
     const selectRow = (e: DataTableSelectEvent) => router.replace(`/details/${e.data.uid}`)
-    
 
-    const header = (
-        <div className="flex flex-wrap align-items-center justify-between gap-2">
-            <span className="text-xl text-900 font-bold">Users</span>
-            <Button icon="pi pi-refresh" rounded raised />
-        </div>
-    );
-
-    const footer = `In total there are ${datas ? datas.length : 0} users.`;
+    const footer = 'Showing 4 of 10.'
 
     return (
         <div className="card">
@@ -65,9 +57,8 @@ const UserTable: React.FC<Users> = ({ users }) => {
                 dataKey="uid"
                 onRowSelect={selectRow} 
                 metaKeySelection={false} 
-                header={header} 
-                footer={footer} 
                 tableStyle={{ minWidth: '60rem' }}
+                footer={footer}
             >
                 <Column field="uid" header="User ID"></Column>
                 <Column field="created_at" header="Created At"></Column>

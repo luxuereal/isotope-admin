@@ -4,7 +4,6 @@ import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 
 const Auth = () => {
-  const [err, setErr] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
   const supabase = useSupabaseClient();
@@ -28,13 +27,11 @@ const Auth = () => {
   return (
     <div className="bg-white mt-[50px] mx-[auto] w-[654px] h-[300px] font-inter text-center">
       <Toast ref={toast} />
-      <p className="font-matter font-bold text-[18px] leading-[26px] text-left">
-        Welcome Back 🎉
-      </p>
+      
       <h1 className="text-[24px] mb-[40px] font-bold">Login</h1>
-      <div className="p-[40px] rounded-md border-[1px] border-bordermain">
-        <div className="flex flex-row gap-[24px]">
-          <div className="text-[16px] font-semibold my-auto min-w-[90px]  text-left">
+      <div className="p-10 rounded-md border-[1px] border-bordermain">
+        <div className="flex flex-row gap-6">
+          <div className="text-[16px] font-semibold my-auto min-w-[90px] text-left">
             Username
           </div>
           <InputText
@@ -47,7 +44,7 @@ const Auth = () => {
           />
         </div>
         <br />
-        <div className="flex flex-row gap-[24px]">
+        <div className="flex flex-row gap-6">
           <div className="text-[16px] font-semibold my-auto min-w-[90px] text-left ">
             Password
           </div>
@@ -58,22 +55,20 @@ const Auth = () => {
             onChange={(e) => {
               setPassowrd(e.target.value);
             }}
-            className="w-[100%]"
+            className="w-full"
           />
         </div>
-        <div className="flex flex-row gap-[24px] mt-[24px]">
+        <div className="flex flex-row gap-6 mt-6">
           <div className="text-[16px] font-semibold my-auto min-w-[90px] text-left "></div>
           <button
             onClick={async () => {
               await signInWithEmail();
             }}
-            className="w-[100%] text-[14px] px-[24px] py-[14px] rounded-lg bg-deepback text-white hover:bg-deepbackhover "
+            className="w-full text-[14px] px-6 py-3 rounded-lg bg-deepback text-white hover:bg-deepbackhover "
           >
             Login
           </button>
         </div>
-
-        <p className="text-[#FF0000] mt-[10px] text-[20px]">{err}</p>
       </div>
     </div>
   );

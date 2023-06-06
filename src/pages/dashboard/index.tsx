@@ -1,6 +1,4 @@
-import {
-  useSupabaseClient,
-} from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import StatusNum from "@/components/statusNum";
 import Summary from "@/components/summary";
 import useAccess from "@/utils/useAccess";

@@ -1,8 +1,21 @@
+import Sidebar from "@/components/sidebar";
+import Header from "@/components/header";
+import useAccess from "@/utils/useAccess";
+
 const Home = () => {
+
+  useAccess();
     
-    return (
-      <div className="min-w-full min-h-[100vh] ">Analytics</div>
-    );
-  };
+  return (
+    <div className="w-full h-[100vh] bg-white flex">
+      <Sidebar />
+      <div className="w-full">
+        <Header headers={[{ href: 'analytics', name: 'Analytics' }]} />
+        <section className="w-full p-8">
+        </section>
+      </div>
+    </div>
+  );
+};
   
-  export default Home;
+export default Home;

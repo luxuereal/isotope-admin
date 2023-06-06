@@ -1,18 +1,21 @@
 import Sidebar from "@/components/sidebar";
+import Header from "@/components/header";
 import useAccess from "@/utils/useAccess";
 
 const Home = () => {
 
   useAccess();
-
+    
   return (
-    <div className="w-full h-[100vh] bg-white flex" >
+    <div className="w-full h-[100vh] bg-white flex">
       <Sidebar />
-      <section className="w-full">
-        Setting
-      </section>
+      <div className="w-full">
+        <Header headers={[{ href: 'setting', name: 'Admin settings' }]} />
+        <section className="w-full p-8">
+        </section>
+      </div>
     </div>
   );
 };
-
+  
 export default Home;

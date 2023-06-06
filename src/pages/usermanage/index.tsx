@@ -10,6 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import { Database } from "@/utils/database.types";
 import { Type } from "@/types";
+import Header from "@/components/header";
+
 type Profiles = Database["public"]["Tables"]["users"]["Row"];
 
 const Dashboard = () => {
@@ -23,6 +25,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (session) getData();
   }, [session]);
+  
   async function getData() {
     try {
       setLoading(true);
@@ -47,12 +50,15 @@ const Dashboard = () => {
   return (
     <div className="w-full h-[100vh] bg-white flex" >
       <Sidebar />
-      <section className="w-full">
-        { loading 
-          ? "Loading..." 
-          : <UserTable users={users} /> 
-        }
-      </section>
+      <div className="w-full">
+        <Header headers={[{ href: 'usermanage', name: 'User Management' }]} />
+        <section className="w-full p-8">
+          { loading 
+            ? "Loading..." 
+            : <UserTable users={users} /> 
+          }
+        </section>
+      </div>
     </div>
   )
 };

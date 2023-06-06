@@ -19,3 +19,8 @@ export type LinkType = {
     icon: React.ComponentType;
     name: string;
 }
+
+export type HeaderType = {
+    href: string;
+    name: string;
+}

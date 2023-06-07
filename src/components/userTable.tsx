@@ -5,19 +5,20 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
-import { Type } from '@/types'
+import { User } from '@/types'
 
 interface Users {
-    users: Type[] | any;
+    users: User[] | any;
+    selectUser: (uid: string) => void;
 };
 
-const UserTable: React.FC<Users> = ({ users }) => {
+const UserTable = ({ users, selectUser }: Users) => {
 
     const router = useRouter();
     
-    const [datas, setDatas] = useState<Type[]>([]);
+    const [datas, setDatas] = useState<User[]>([]);
 
-    const [row, setRow] = useState<Type | null>(null);
+    const [row, setRow] = useState<User | null>(null);
 
     useEffect(() => setDatas(users), []);
 
@@ -25,41 +26,41 @@ const UserTable: React.FC<Users> = ({ users }) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     };
 
-    const imageBodyTemplate = (type: Type) => {
+    const imageBodyTemplate = (type: User) => {
         return <img src={``} alt={``} className="w-6rem shadow-2 border-round" />;
     };
 
-    const priceBodyTemplate = (type: Type) => {
+    const priceBodyTemplate = (type: User) => {
         return formatCurrency(0);
     };
 
-    const ratingBodyTemplate = (type: Type) => {
+    const ratingBodyTemplate = (type: User) => {
         return <Rating value={0} readOnly cancel={false} />;
     };
 
-    const statusBodyTemplate = (type: Type) => {
+    const statusBodyTemplate = (type: User) => {
         return <Tag value={type.is_disabled ? 'Allowed' : 'Not Allowed'} severity={getSeverity(type)}></Tag>;
     };
 
-    const getSeverity = (type: Type) => type.is_disabled ? 'success' : 'danger';
+    const getSeverity = (type: User) => type.is_disabled ? 'success' : 'danger';
 
-    const selectRow = (e: DataTableSelectEvent) => router.replace(`/details/${e.data.uid}`)
 
-    const footer = 'Showing 4 of 10.'
+    const footer = 'Showing 4 of 10'
 
     return (
-        <div className="card">
+        <div className="card usertable">
             <DataTable 
                 value={datas} 
                 selectionMode="single" 
                 selection={row!} 
-                onSelectionChange={(e) => setRow(e.value as Type)} 
+                onSelectionChange={(e) => setRow(e.value as User)} 
                 dataKey="uid"
-                onRowSelect={selectRow} 
+                onRowSelect={(e: DataTableSelectEvent) => selectUser(e.data.uid)} 
                 metaKeySelection={false} 
                 tableStyle={{ minWidth: '60rem' }}
                 footer={footer}
             >
+                <Column field="id" header="S/N"></Column>
                 <Column field="uid" header="User ID"></Column>
                 <Column field="created_at" header="Created At"></Column>
                 <Column field="phone_number" header="Phone"></Column>

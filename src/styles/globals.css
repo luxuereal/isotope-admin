@@ -36,23 +36,27 @@ body {
 .p-datatable {
   border-radius: 8px;
   border: 1px solid #e3e8f2;
-  padding: 1px;
+  /* padding: 1px; */
 }
 
 thead > tr > th {
-  background-color: gray;
+  background-color: #f4f4f6 !important;
   border-right: 1px solid #e3e8f2 !important;
+  color: #52678E !important;
+
 }
 
 thead > tr > th:first-child {
   border-radius: 8px 0 0 0 !important;
-  background-color: gray;
 }
 
 thead > tr > th:last-child {
   border-radius: 0 8px 0 0 !important;
-  background-color: gray;
   border-right: none !important;
+}
+
+.usertable tbody > tr:hover {
+  background-color: #f4f4f6 !important;
 }
 
 tbody > tr > td {
@@ -70,4 +74,20 @@ td {
 .p-datatable-footer {
   background-color: transparent !important;
   border-bottom: none !important;
+  font-weight: normal !important;
+}
+
+.select-left {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.select-center {
+  border-radius: 0 !important;
+  border-left: none !important;
+}
+
+.select-right {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }

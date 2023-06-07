@@ -18,7 +18,7 @@ const Sidebar = () => {
   ]
 
   return (
-    <nav className="bg-grayback text-sidetext w-80 h-full p-4 pt-10 font-inter drop-shadow-md">
+    <nav className="bg-grayback text-sidetext w-80 h-full p-4 pt-10 font-inter drop-shadow-md fixed">
       <img className="h-8" src="mark.png" alt="" />
       <Navigation links={links} />
     </nav>

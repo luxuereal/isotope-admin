@@ -1,6 +1,7 @@
 export type Params = { [key: string]: string | string[] | undefined };
 
-export type Type = {
+export type User = {
+    id: number;
     uid: string;
     created_at: string;
     phone_number: string;
@@ -23,4 +24,10 @@ export type LinkType = {
 export type HeaderType = {
     href: string;
     name: string;
+}
+
+export type FilterUser = {
+    type: string[] | null;
+    gender: string[] | null;
+    status: string[] | null;
 }

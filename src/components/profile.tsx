@@ -1,32 +1,32 @@
-import { User } from "@/types";
+import Image from "next/image";
+
+import { xprofiles } from "@/utils/database.types";
 
 interface Profile {
-  profile: User;
+  profile: xprofiles;
 }
 
 const Profile = ({profile}: Profile) => {
 
-  console.log(profile);
-
   const bioFields:{ name:string; code:string }[] = [
-    { name: 'First Name', code: 'fname' },
+    { name: 'First Name', code: 'name' },
     { name: 'Last Name', code: 'lname' },
     { name: 'Gender', code: 'gender' },
     { name: 'Age', code: 'age' },
-    { name: 'D.O.B', code: 'birth' },
-    { name: 'Zodiac', code: 'zodiac' },
+    { name: 'D.O.B', code: 'birthday' },
+    { name: 'Zodiac', code: 'zodiac_visibility' },
     { name: 'City', code: 'city' },
     { name: 'State', code: 'state' },
     { name: 'Country', code: 'country' },
-    { name: 'Phone', code: 'phone' },
+    { name: 'Phone', code: 'phone_number' },
     { name: 'Email', code: 'email' }
   ]
 
   const infoFields:{ name:string; code:string }[] = [
-    { name: 'Sign-up Date', code: 'up-date' },
-    { name: 'Sign-up Time', code: 'up-time' },
-    { name: 'Last Login Date', code: 'in-date' },
-    { name: 'Last Login Time', code: 'in-time' },
+    { name: 'Sign-up Date', code: 'up_date' },
+    { name: 'Sign-up Time', code: 'up_time' },
+    { name: 'Last Login Date', code: 'in_date' },
+    { name: 'Last Login Time', code: 'in_time' },
     { name: 'Account Status', code: 'status' },
     { name: 'Reported', code: 'reported' },
     { name: 'Spotify', code: 'spotify' },
@@ -34,7 +34,7 @@ const Profile = ({profile}: Profile) => {
     { name: 'Meme', code: 'meme' },
     { name: 'Movie/TV', code: 'movie' },
     { name: 'Stories', code: 'stories' },
-    { name: 'Dating/Friends', code: 'fr' },
+    { name: 'Dating/Friends', code: 'dating_fr' },
   ]
 
   const bioRowNum:number = Math.ceil((bioFields.length - 1) / 6 );
@@ -42,14 +42,16 @@ const Profile = ({profile}: Profile) => {
   const infoRowNum:number = Math.ceil((bioFields.length - 1) / 6 );
 
 
+
+
   return (
     <>
       <div className="rounded-md border border-border w-full h-30 p-5 flex justify-between">
         <div className="h-20 flex items-center font-bold text-xl">
-          <img src="user/03.jpg" className="w-20 h-20 object-cover rounded-full border-2 border-black mr-4" alt="" />
-          ID: IS0032
+          <Image width='200' height='200' src={profile.photos ? JSON.parse(profile.photos)[0] : '/user/01.png'} className="w-20 h-20 object-cover rounded-full border-2 border-black mr-4" alt="" />
+          ID:&nbsp;{profile.uid}
         </div>
-        <div className="flex gap-8 items-center">
+        <div className="flex gap-4 items-center">
           <button className="rounded-md border border-border whitespace-nowrap text-black px-4 py-2">Send Message</button>
           <button className="rounded-md border border-border text-black px-4 py-2">Suspend</button>
           <span className="border-l border-border h-10"></span>
@@ -69,18 +71,18 @@ const Profile = ({profile}: Profile) => {
                   {idx !== bioRowNum - 1
                     ?
                       [...Array(6)].map((td, id) =>
-                        <td className="p-4 w-[16.66%] gap-y-6 first:border-l-0" key={`td-${idx}-${id}`}>
-                          <p className="text-normaltext">{bioFields[idx * 6 + id]['name']}</p>
-                          <p className="text-black font-bold">Asa</p>
+                        <td className="p-4 w-[16.66%] first:border-l-0" key={`td-${idx}-${id}`}>
+                          <p className="text-normaltext mb-2">{bioFields[idx * 6 + id]['name']}</p>
+                          <p className="text-black font-bold">{profile[bioFields[idx * 6 + id]['code']] || 'None'}</p>
                         </td>
                       )
                     :
                       [...Array(6)].map((td, id) =>
-                        <td className="p-4 w-[16.66%] gap-y-6 first:border-l-0 border-b-0" key={`td-${idx}-${id}`}>
+                        <td className="p-4 w-[16.66%] first:border-l-0 border-b-0" key={`td-${idx}-${id}`}>
                           {id < bioFields.length - 6 * idx
                             ? <>
-                                <p className="text-normaltext">{bioFields[idx * 6 + id]['name']}</p>
-                                <p className="text-black font-bold">Asa</p>
+                                <p className="text-normaltext mb-2">{bioFields[idx * 6 + id]['name']}</p>
+                                <p className="text-black font-bold">{profile[bioFields[idx * 6 + id]['code']] || 'None'}</p>
                               </>
                             : <></>
                           }                        
@@ -109,8 +111,18 @@ const Profile = ({profile}: Profile) => {
                     ?
                       [...Array(6)].map((td, id) =>
                         <td className="p-4 w-[16.66%] gap-y-6 first:border-l-0" key={`td-${idx}-${id}`}>
-                          <p className="text-normaltext">{infoFields[idx * 6 + id]['name']}</p>
-                          <p className="text-black font-bold">Asa</p>
+                          <p className="text-normaltext mb-2">{infoFields[idx * 6 + id]['name']}</p>
+                          <p className="text-black font-bold">{
+                            infoFields[idx * 6 + id]['code'] === 'status' 
+                              ? profile[infoFields[idx * 6 + id]['code']] 
+                                  ? <span className="text-green">Active</span>
+                                  : <span className="text-pink">Passive</span>
+                              : infoFields[idx * 6 + id]['code'] === 'reported' 
+                                  ? profile[infoFields[idx * 6 + id]['code']] 
+                                      ? 'Yes'
+                                      : 'No'
+                                  : profile[infoFields[idx * 6 + id]['code']] 
+                          }</p>
                         </td>
                       )
                     :
@@ -118,8 +130,8 @@ const Profile = ({profile}: Profile) => {
                         <td className="p-4 w-[16.66%] gap-y-6 first:border-l-0 border-b-0" key={`td-${idx}-${id}`}>
                           {id < infoFields.length - 6 * idx
                             ? <>
-                                <p className="text-normaltext">{infoFields[idx * 6 + id]['name']}</p>
-                                <p className="text-black font-bold">Asa</p>
+                                <p className="text-normaltext mb-2">{infoFields[idx * 6 + id]['name']}</p>
+                                <p className="text-black font-bold">{profile[infoFields[idx * 6 + id]['code']] || 'None'}</p>
                               </>
                             : <></>
                           }                        
@@ -137,7 +149,7 @@ const Profile = ({profile}: Profile) => {
       <div className="rounded-md bg-grayback border border-border w-full p-5">
         <p className="mb-4 text-normaltext font-bold text-xl">Verification Selfie</p>
         <div className="h-20">
-          <img src="user/03.jpg" className="w-20 h-20 object-cover rounded-full border-2 border-black mr-4" alt="" />
+          <Image width='200' height='200' src={profile.photos ? JSON.parse(profile.photos)[0] : '/user/01.png'} className="w-20 h-20 object-cover rounded-full border-2 border-black mr-4" alt="" />
         </div>
       </div>
     </>

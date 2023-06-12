@@ -23,6 +23,7 @@ module.exports = {
       transparent: 'transparent',
       white: colors.white,
       black: colors.black,
+      red: colors.red,
       grayback: '#f5f5f5',
       border: '#e3e8f2',
       normaltext: '#52678e',

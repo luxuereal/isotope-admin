@@ -1,11 +1,13 @@
+import BubbleChart from "@/components/bubbleChart";
 import Header from "@/components/header";
+import Layout from "@/components/layout";
 import { LineChart } from "@/components/lineChart";
-import Sidebar from "@/components/sidebar";
+import LocationSwitch from "@/components/locationSwitch";
+import TopLocations from "@/components/topLocations";
 import TotalNum from "@/components/totalNum";
-import useAccess from "@/utils/useAccess";
+import { useState } from "react";
 
 const Analytics = () => {
-  useAccess();
   const totalSession = [
     {
       label: "Dataset 1",
@@ -64,11 +66,12 @@ const Analytics = () => {
       backgroundColor: "#CE2A96",
     },
   ];
+
+
   return (
-    <div className="w-full h-[100vh] bg-white flex">
-      <Sidebar />
+    <Layout>
       <div className="w-full">
-        <Header headers={[{ href: "/analytics", name: "Analyitics" }]} />
+        <Header headers={[{ href: "analytics", name: "Analytics" }]} />
         <section className="w-full px-8">
           Analytics
           <div className="grid grid-cols-2 gap-6">
@@ -98,17 +101,17 @@ const Analytics = () => {
                 option={1}
               />
             </div>
-            <div className="w-full"></div>
+            <TopLocations />
           </div>
           <div className="grid grid-cols-2 gap-6 mt-6">
-            <div className="w-full h-[300px] border-border border-[1px] rounded-[10px] p-5">
+            <div className="w-full min-h-[350px] border-border border-[1px] rounded-[10px] p-5">
               <LineChart data={monthlyView} option={2} />
             </div>
             <div className="w-full"></div>
           </div>
         </section>
       </div>
-    </div>
+    </Layout>
   );
 };
 

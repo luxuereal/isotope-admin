@@ -1,27 +1,13 @@
-import { useSessionContext } from "@supabase/auth-helpers-react";
-import Auth from "@/components/Auth";
-import { useEffect } from "react";
+"use client";
 import { useRouter } from "next/router";
-import Sidebar from "@/components/sidebar";
-import Header from "@/components/header";
-
+import { useEffect } from "react";
 const Home = () => {
   const router = useRouter();
-  const { isLoading, session, error } = useSessionContext();
-
-  useEffect(() => {
-    if (!isLoading && !session) router.push("/");
-    if (session) router.push("/dashboard");
-  }, [session, isLoading]);
-
+  useEffect(()=>{
+    router.push('/signin')
+  },[router])
   return (
-    <div className="w-full h-[100vh] bg-white flex">
-      <Sidebar />
-      <div className="w-full">
-        <Header headers={[{ href: "/", name: "Welcome Back 🎉" }]} />
-        <section className="w-full">{!session ? <Auth /> : ""}</section>
-      </div>
-    </div>
+    <></>
   );
 };
 

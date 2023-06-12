@@ -6,25 +6,25 @@ import { LinkType } from '@/types';
 import { FiLogOut } from "react-icons/fi";
 
 interface Links {
-  links: LinkType[] | [];
+  links: LinkType[];
 }
 
 const Navigation = ({ links }: Links) => {
 
   const { session, error } = useSessionContext();
 
-  const pathname = usePathname();
-
   const supabase = useSupabaseClient();
 
   const router = useRouter();
+
+  const pathname = usePathname();
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       alert(error)
     } else {
-      router.replace('/');
+      router.push('/signin');
     };
   };
 
@@ -32,16 +32,16 @@ const Navigation = ({ links }: Links) => {
     <ul className="mt-4 w-full py-4 text-base">
       {links.map((link, idx) => 
           <div key={`lk-${idx}`}>
-            <li 
-              className={`w-full transition-colors px-4 py-2 my-2 hover:bg-white hover:rounded-md hover:drop-shadow-md hover:text-black ${pathname.startsWith(`/${link.href}`) ? 'bg-white rounded-md drop-shadow-md text-black' : ''}`}>
-              <Link
-                href={link.href}
-                key={`link-${idx}`}
-                className='transition-colors'
-              >
-                <span className="flex items-center"><link.icon />&nbsp;&nbsp;&nbsp;<span>{link.name}</span></span>
-              </Link>
-            </li>
+            <Link
+              href={link.href}
+              key={`link-${idx}`}
+              className='transition-colors'
+            >
+              <li 
+                className={`w-full transition-colors px-4 py-2 my-2 hover:bg-white hover:rounded-md hover:drop-shadow-md hover:text-black ${pathname ? pathname.startsWith(link.href) ? 'bg-white rounded-md drop-shadow-md text-black' : '' : ''}`}>
+                  <span className="flex items-center"><link.icon />&nbsp;&nbsp;&nbsp;<span>{link.name}</span></span>
+              </li>
+            </Link>
             {idx === 4 ? <hr className="border-border" /> : <></>}
           </div>
         )

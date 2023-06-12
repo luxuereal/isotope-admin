@@ -2,6 +2,7 @@ interface props  {
   title: string;
   value: number;
 }
+
 const StatusNum: React.FC<props> = ({title, value}) => {
     
     return (

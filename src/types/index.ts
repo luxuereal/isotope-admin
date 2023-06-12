@@ -3,11 +3,10 @@ export type Params = { [key: string]: string | string[] | undefined };
 export type User = {
     id: number;
     uid: string;
-    created_at: string;
-    phone_number: string;
-    email: string;
-    provider: string;
-    is_disabled: boolean;
+    name: string;
+    gender: string;
+    birthday: string;
+    age: number;
 }
 
 export type Summary = {
@@ -24,6 +23,26 @@ export type LinkType = {
 export type HeaderType = {
     href: string;
     name: string;
+}
+
+export type ProfileType = {
+    uid: string;
+    created_at: string;
+    phone_number: string;
+    email:string;
+    provider:string;
+    is_disabled:boolean;
+}
+
+export type SubscriptionType = {
+    id: string;
+    created_at: string;
+    user_id: string;
+    current_period_start: string;
+    current_period_end: string;
+    payment_method: number;
+    status: number;
+    token: string;
 }
 
 export type FilterUser = {

@@ -1,5 +1,7 @@
 import React from "react";
-import { ChartOptions } from 'chart.js';
+
+import { ChartOptions } from "chart.js";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,9 +9,9 @@ import {
   PointElement,
   LineElement,
   Title,
-  Tooltip,
   Legend,
 } from "chart.js";
+
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -21,10 +23,13 @@ ChartJS.register(
   Legend
 );
 
-const options = {
+const options: ChartOptions<"line"> = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
+    tooltip: {
+      enabled: false,
+    },
     legend: {
       display: false,
     },
@@ -42,7 +47,6 @@ const options = {
     y: {
       grid: {
         display: false,
-        beginAtZero: true,
       },
       min: 0,
       max: 1.1,
@@ -55,44 +59,46 @@ const options = {
     },
   },
 };
-const bezier: ChartOptions<'line'> = {
+const bezier: ChartOptions<"line"> = {
   responsive: true,
   maintainAspectRatio: false,
+  interaction: {
+    intersect: false,
+    mode: "index",
+  },
   plugins: {
     title: {
-      text: 'Monthly Views',
+      text: "Monthly Views",
       display: true,
-      align: 'start',
-      color: '#000000',
+      align: "start",
+      color: "#000000",
       font: {
         size: 20,
-        weight: 'bold',
-      }
+        weight: "bold",
+      },
     },
     legend: {
       display: true,
       labels: {
-        color: 'rgb(0, 0, 0)',
+        color: "rgb(0, 0, 0)",
         boxWidth: 13,
         useBorderRadius: true,
         borderRadius: 7,
-      }
+      },
     },
   },
   scales: {
     x: {
-      grid: {
-      },
+      grid: {},
       ticks: {
         stepSize: 50,
-      }
+      },
     },
     y: {
       grid: {
         display: true,
       },
       min: 0,
-      max: 100,
 
       ticks: {
         // forces step size to be 50 units
@@ -105,11 +111,24 @@ const bezier: ChartOptions<'line'> = {
     line: {
       tension: 0.5,
     },
-  }
+  },
 };
 
 const labels = ["1", "2", "3", "4", "5", "6"];
-const monthlabels = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", 'OCT', 'NOV', 'DEC'];
+const monthlabels = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];
 
 const data1 = {
   labels,

@@ -1,13 +1,17 @@
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRef, useState } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
+
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
   const supabase = useSupabaseClient();
   const toast = useRef<any>(null);
+  const router = useRouter();
 
   async function signInWithEmail() {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -15,19 +19,19 @@ const Auth = () => {
       password: password,
     });
     if (error) {
-        toast.current?.show({
-          severity: "error",
-          summary: error.message,
-          detail: "Email address or password ",
-          life: 2000,
-        });
-    }
+      toast.current?.show({
+        severity: "error",
+        summary: error.message,
+        detail: "Email address or password ",
+        life: 2000,
+      });
+    } else router.push("/dashboard");
   }
-  
+
   return (
     <div className="bg-white mt-[50px] mx-[auto] w-[654px] h-[300px] font-inter text-center">
       <Toast ref={toast} />
-      
+
       <h1 className="text-[24px] mb-[40px] font-bold">Login</h1>
       <div className="p-10 rounded-md border-[1px] border-bordermain">
         <div className="flex flex-row gap-6">

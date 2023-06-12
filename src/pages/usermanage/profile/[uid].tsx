@@ -10,18 +10,18 @@ import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
 import Profile from "@/components/profile";
 import { Database } from "@/utils/database.types";
-import useAccess from "@/utils/useAccess";
+// import useAccess from "@/utils/useAccess";
 
 type Profiles = Database["public"]["Tables"]["profiles"]["Row"];
 
 const Dashboard = () => {
-  useAccess();
+  // useAccess();
 
   const supabase = useSupabaseClient<Database>();
   const router = useRouter();
 
   const [profile, setProfile] = useState<Profiles | any>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
 
   useEffect(() => {

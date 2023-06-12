@@ -1,9 +1,11 @@
 import { Summary } from "@/types";
+
 interface props {
   title: string;
   data: Summary[];
   color: string;
 }
+
 const Summary: React.FC<props> = ({ title, data, color }) => {
   return (
     <div className="bg-white w-full min-h-[300px] font-inter text-left border-[#E3E8F2] border-[1px] rounded-[10px] flex flex-col px-6 py-6 gap-4">

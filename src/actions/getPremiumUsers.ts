@@ -1,6 +1,4 @@
 import { SubscriptionType } from "@/types";
-import { convertToObject } from "typescript";
-
 
 export default async function getPermiumUsers() {
 
@@ -25,6 +23,4 @@ export default async function getPermiumUsers() {
             count++;
     })
     return count;
-    // setRegisteredUsers(3)
-    // console.log(registerd_users);
 }

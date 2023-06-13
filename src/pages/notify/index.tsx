@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { AiOutlineCheck } from "react-icons/ai";
 import { InputTextarea } from "primereact/inputtextarea";
-import { MultiSelect } from "primereact/multiselect";
+import { Dropdown } from 'primereact/dropdown';
 
 import Header from "@/components/header";
 import Layout from "@/components/layout";
@@ -27,23 +27,19 @@ const Home = () => {
                 <div className="my-auto text-[16px] font-semibold  min-w-[90px] text-left">
                   To:
                 </div>
-                <MultiSelect
-                  value={selectedUsers}
-                  onChange={(e) => setSelectedUsers(e.value)}
-                  // options={cities}
+                <Dropdown 
+                  value={selectedUsers} 
+                  onChange={(e) => setSelectedUsers(e.value)} 
                   options={[
                     { name: "New York", code: "NY" },
                     { name: "Rome", code: "RM" },
                     { name: "London", code: "LDN" },
                     { name: "Istanbul", code: "IST" },
                     { name: "Paris", code: "PRS" },
-                  ]}
-                  optionLabel="name"
-                  display="chip"
-                  placeholder="One or All Users"
-                  maxSelectedLabels={3}
-                  className="w-full md:w-20rem"
-                />
+                  ]} 
+                  optionLabel="name" 
+                  placeholder="One or All Users" 
+                  className="w-full md:w-14rem" />
               </div>
               <div className="flex flex-row gap-6">
                 <div className="text-[16px] font-semibold  min-w-[90px] text-left">

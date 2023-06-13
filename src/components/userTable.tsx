@@ -44,7 +44,7 @@ const UserTable = ({ users, selectUser }: Users) => {
     //     return <Tag value={type.is_disabled ? 'Allowed' : 'Not Allowed'} severity={getSeverity(type)}></Tag>;
     // };
 
-    // const getSeverity = (type: User) => type.is_disabled ? 'success' : 'danger';
+    // const statusTemplate = (type: User) => type.is_disabled ? 'success' : 'danger';
 
     // const selectPage = (startOffset: number, endOffset: number) => {
     //     setValue({

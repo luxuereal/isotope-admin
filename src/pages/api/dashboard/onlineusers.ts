@@ -12,8 +12,8 @@ export default async function handler(
     const supabase = createPagesBrowserClient<Database>();
     try {
         let { data, error, status } = await supabase
-            .from("subscriptions")
-            .select(`uid,current_period_end`);
+            .from("status")
+            .select(`uid, address, is_online`);
         if (error && status !== 406) {
             throw error;
         }

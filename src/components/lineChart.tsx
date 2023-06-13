@@ -80,8 +80,12 @@ const bezier: ChartOptions<"line"> = {
     legend: {
       display: true,
       labels: {
-        color: "rgb(0, 0, 0)",
-        boxWidth: 13,
+        font: {
+          size: 16,
+          family: "Inter",
+        },
+        color: "#000000",
+        boxWidth: 15,
         useBorderRadius: true,
         borderRadius: 7,
       },

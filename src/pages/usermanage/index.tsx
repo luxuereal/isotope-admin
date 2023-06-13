@@ -65,6 +65,8 @@ const Dashboard = () => {
         .select(`uid, name, gender, birthday`)
         .range(val.start, val.end);
 
+      console.log(datas);
+
       if (total.error || datas.error) {
         throw error;
       }
@@ -87,17 +89,17 @@ const Dashboard = () => {
 
   const options = {
     type: [
-      { name: "Premium", code: "1" },
-      { name: "Standard", code: "2" },
+      { name: "Premium", code: true },
+      { name: "Standard", code: false },
     ],
     status: [
       { name: "Suspended", code: "1" },
       { name: "Flagged", code: "2" },
     ],
     gender: [
-      { name: "Male", code: "1" },
-      { name: "Female", code: "2" },
-      { name: "Transgender", code: "3" },
+      { name: "Man", code: "Man" },
+      { name: "Woman", code: "Woman" },
+      { name: "Transgender", code: "Transgender" },
     ],
   };
 
@@ -105,13 +107,42 @@ const Dashboard = () => {
     await router.push(`usermanage/profile/${uid}`);
   }
 
+  const makeCondition = (field: string, arr: { name: string, code: string | boolean }[] | [] | null) => {
+    let str = '(';
+    if (arr && arr.length !== 0) {
+      arr.forEach((element, idx) => {
+        if (idx === arr.length - 1) {
+          str += `${element.code}`;
+        } else {
+          str += `${element.code},`;
+        }
+      });
+    } else {
+      switch (field) {
+        case 'type':
+          str += 'true,false';
+          break;
+        case 'status':
+          str += '0,1,2';
+          break;
+        default:
+          str += 'Man,Woman,Transgender';
+          break;
+      }
+    }  
+    str += ')';
+    console.log(str);
+    return str;
+  }
+
   const clickFilter = async () => {
     try {
       let datas = await supabase
         .from("profiles")
-        .select(`*, subscriptions!inner(current_period_start, current_period_end)`)
-        .gte('subscriptions.current_period_start', new Date().toISOString())
-        .lte('subscriptions.current_period_end', new Date().toISOString());
+        .select(`uid, name, gender, birthday, is_premium`)
+        .filter('is_premium', 'in', makeCondition('type', filter.type))
+        .filter('report_status', 'in', makeCondition('status', filter.status))
+        .filter('gender', 'in', makeCondition('gender', filter.gender));
       
         console.log(datas);
 

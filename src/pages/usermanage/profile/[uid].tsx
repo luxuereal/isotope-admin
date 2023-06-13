@@ -10,12 +10,10 @@ import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
 import Profile from "@/components/profile";
 import { Database } from "@/utils/database.types";
-// import useAccess from "@/utils/useAccess";
 
 type Profiles = Database["public"]["Tables"]["profiles"]["Row"];
 
 const Dashboard = () => {
-  // useAccess();
 
   const supabase = useSupabaseClient<Database>();
   const router = useRouter();

@@ -37,7 +37,7 @@ export type ProfileType = {
 export type SubscriptionType = {
     id: string;
     created_at: string;
-    user_id: string;
+    uid: string;
     current_period_start: string;
     current_period_end: string;
     payment_method: number;
@@ -46,7 +46,7 @@ export type SubscriptionType = {
 }
 
 export type FilterUser = {
-    type: string[] | null;
-    gender: string[] | null;
-    status: string[] | null;
+    type: { name: string, code: boolean }[] | null;
+    gender: { name: string, code: string }[] | null;
+    status: { name: string, code: string }[] | null;
 }

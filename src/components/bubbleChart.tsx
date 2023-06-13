@@ -30,7 +30,6 @@ const options: ChartOptions<"bubble"> = {
       callbacks: {
         label: function(context) {
             let label = context.dataset.label || '';
-
             if (label) {
                 label += ': ';
             }
@@ -51,7 +50,7 @@ const options: ChartOptions<"bubble"> = {
           family: "Inter",
         },
         color: "#000000",
-        boxWidth: 15,
+        boxWidth: 14,
         useBorderRadius: true,
         borderRadius: 7,
       },

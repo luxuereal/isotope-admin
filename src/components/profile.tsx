@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { xprofiles } from "@/utils/database.types";
+import { xprofiles } from "@/types/profile.type";
 
 interface Profile {
   profile: xprofiles;

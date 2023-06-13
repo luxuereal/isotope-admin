@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { RxPaperPlane } from "react-icons/rx";
 import { BiUser, BiBell } from "react-icons/bi";
@@ -21,8 +21,9 @@ const Sidebar = () => {
   ])
 
   return (
-    <nav className="bg-grayback text-sidetext w-80 h-full p-4 pt-10 font-inter drop-shadow-md fixed">
-      <Image width="100" height="20" className="h-8 w-auto" src="/mark.png" alt="" />
+    <nav className="bg-grayback text-sidetext lg:w-80 h-full lg:p-4 pt-10 font-inter drop-shadow-md fixed">
+      <Image width="100" height="20" className="h-8 mt-10 w-auto lg:block hidden" src="/mark.png" alt="" />
+      <Image width="32" height="32" className="m-1 h-6 w-auto lg:hidden block" src="/favicon.svg" alt="" />
       <Navigation links={links} />
     </nav>
   )

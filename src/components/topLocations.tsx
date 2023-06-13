@@ -1,4 +1,3 @@
-import { Summary } from "@/types";
 import LocationSwitch from "./locationSwitch";
 import BubbleChart from "./bubbleChart";
 

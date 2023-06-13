@@ -13,15 +13,15 @@ import Header from "@/components/header";
 import UserTable from "@/components/userTable";
 import Paginator from '@/components/paginator';
 import { Database } from "@/utils/database.types";
-import { User } from "@/types";
-import { FilterUser } from "@/types";
+import { users } from '@/types/users.type'
+import { FilterUser } from "@/types/filter.type";
 
 const Dashboard = () => {
   const router = useRouter();
   const { isLoading, session, error } = useSessionContext();
   const supabase = useSupabaseClient<Database>();
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState<Array<User> | any>();
+  const [users, setUsers] = useState<Array<users> | any>();
   const [totalNum, setTotalNum] = useState<number>(0);
   const [itemsPerPage] = useState<number>(3);
   const [pageVal, setPageVal] = useState<{ start: number; end: number;}>({
@@ -47,7 +47,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
 
-      let calAge = (dt: User | any) => {
+      let calAge = (dt: users | any) => {
         let thisYear = new Date().getFullYear();
         if (dt.birthday) {
           return thisYear - new Date(dt.birthday).getFullYear();

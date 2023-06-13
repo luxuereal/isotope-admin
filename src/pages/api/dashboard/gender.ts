@@ -1,9 +1,8 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const SERVER_ERR_MSG = "Something went wrong in a server.";
 import { Database } from "@/utils/database.types";
+import { SERVER_ERR_MSG } from '@/utils/messages';
 
 export default async function handler(
     req: NextApiRequest,

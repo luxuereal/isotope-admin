@@ -1,8 +1,6 @@
 import useParticipantStore from "@/store/use-participant";
 import { useState } from "react";
 
-import Switch from "react-switch";
-
 const LocationSwitch = () => {
   const [checked, setChecked] = useState(false);
   const {

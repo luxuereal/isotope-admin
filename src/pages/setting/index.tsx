@@ -6,6 +6,9 @@ import { Toast } from "primereact/toast";
 
 import Header from "@/components/header";
 import Layout from "@/components/layout";
+import { validatePassword } from "@/utils/validate";
+import changePassword from "@/actions/auth/changepass";
+import { showMessage } from "@/utils/messages";
 
 const Home = () => {
   const supabase = useSupabaseClient();
@@ -15,81 +18,48 @@ const Home = () => {
   const [new_password, setNewPassword] = useState("");
   const [confirm_pass, setConfirmPass] = useState("");
 
-  const validate = () => {
-    if (!new_password || !confirm_pass || !old_password) return false;
-    if (new_password.length < 8) return false;
-    if (confirm_pass !== new_password) return false;
-    return true;
-  };
-  const changePassword = async () => {
-    if (!validate()) {
-      toast.current?.show({
-        severity: "error",
-        summary: "Validate error!",
-        detail: "Please input data correctly!",
-        life: 2000,
-      });
+  
+  const change = async () => {
+    if (!validatePassword(old_password, new_password, confirm_pass)) {
+      showMessage(toast, "error", "Validate error!", "Please input data correctly!");
       return;
     }
     const userResponse = await supabase.auth.getUser();
     let email: string = "";
     if (userResponse?.data?.user?.email) email = userResponse.data.user.email;
 
-    const response = await fetch("/api/changepass", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        old_password,
-      }),
-    })
-    if (response.ok) {
+    let ok = await changePassword(email,old_password);
+    if(ok){
       const { error } = await supabase.auth.updateUser({
         password: new_password,
       });
-
       if (error) {
-        // Handle error
-        toast.current?.show({
-          severity: "error",
-          summary: error.message,
-          detail: "Oops! You are offline.",
-          life: 2000,
-        });
+        //Offline
+        showMessage(toast, "error", error.message, "Oops! You are offline!");
       } else {
-        toast.current?.show({
-          severity: "success",
-          summary: "Success!",
-          detail: "Password changes successfully!",
-          life: 2000,
-        });
         // Password updated successfully
+        showMessage(toast, "success", "Success!", "Password changes successfully!");
       }
     }
     else {
-      toast.current?.show({
-        severity: "error",
-        summary: "Invalid Credentials!",
-        detail: "Your previous password is incorrect!",
-        life: 2000,
-      });
+      //Old password is incorrect!
+      showMessage(toast, "error", "Invalid Credentials!", "Your previous password is incorrect!");
     }
-  };
+  }
+
   return (
     <Layout>
       <Toast ref={toast} />
       <div className="w-full">
         <Header headers={[{ href: "", name: "Admin Settings" }]} />
-        <section className="w-full p-8">
-          <div className="w-[654px] mx-auto text-center">
-            <h1 className="font-inter text-[24px] my-10 font-bold">
+        <section className="w-full lg:p-8 p-2">
+          <div className="max-w-[654px] mx-auto text-center">
+            <h1 className="font-inter lg:text-[24px] text-[14px] my-10 font-bold">
               Change Admin Password
             </h1>
-            <div className="w-full rounded-[10px] border-[1px] border-bordermain p-10">
-              <div className="flex flex-row gap-6 text-left mb-6">
-                <div className="my-auto text-[16px] font-semibold  min-w-[150px] text-left">
+            <div className="w-full rounded-[10px] border-[1px] border-bordermain lg:p-10 p-3">
+              <div className="flex flex-row lg:gap-6 gap-2 text-left lg:mb-6 mb-2 lg:h-11 h-8">
+                <div className="my-auto lg:text-[16px] text-[10px] font-semibold  lg:min-w-[150px] min-w-[100px] text-left">
                   Previous Password
                 </div>
                 <InputText
@@ -99,11 +69,11 @@ const Home = () => {
                   onChange={(e) => {
                     setOldPassword(e.target.value);
                   }}
-                  className="w-full"
+                  className="w-full h-full"
                 />
               </div>
-              <div className="flex flex-row gap-6 text-left mb-6">
-                <div className="my-auto text-[16px] font-semibold  min-w-[150px] text-left">
+              <div className="flex flex-row lg:gap-6 gap-2 text-left lg:mb-6 mb-2 lg:h-11 h-8">
+                <div className="my-auto lg:text-[16px] text-[10px] font-semibold  lg:min-w-[150px] min-w-[100px] text-left">
                   New Password
                 </div>
                 <InputText
@@ -113,11 +83,11 @@ const Home = () => {
                   onChange={(e) => {
                     setNewPassword(e.target.value);
                   }}
-                  className="w-full"
+                  className="w-full h-full"
                 />
               </div>
-              <div className="flex flex-row gap-6 text-left mb-6">
-                <div className="my-auto text-[16px] font-semibold  min-w-[150px] text-left">
+              <div className="flex flex-row lg:gap-6 gap-2 text-left lg:mb-6 mb-2 lg:h-11 h-8">
+                <div className="my-auto lg:text-[16px] text-[10px] font-semibold  lg:min-w-[150px] min-w-[100px] text-left">
                   Repeat Password
                 </div>
                 <InputText
@@ -130,10 +100,10 @@ const Home = () => {
                   className="w-full"
                 />
               </div>
-              <div className="flex flex-row gap-6 mt-6">
-                <div className="text-[16px] font-semibold my-auto min-w-[150px] text-left "></div>
+              <div className="flex flex-row lg:gap-6 lg:mt-6 mt-2">
+                <div className="text-[16px] font-semibold my-auto lg:min-w-[150px] w-[0px] text-left "></div>
                 <button
-                  onClick={changePassword}
+                  onClick={change}
                   className="w-full text-[14px] px-6 py-3 rounded-lg bg-deepback text-white hover:bg-deepbackhover "
                 >
                   Change password

@@ -1,4 +1,5 @@
 import LineChart from "./lineChart";
+
 interface props {
   data: any;
   title: string;

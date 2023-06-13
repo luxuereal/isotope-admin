@@ -8,8 +8,6 @@ import { Dropdown } from 'primereact/dropdown';
 import Header from "@/components/header";
 import Layout from "@/components/layout";
 
-
-
 const Home = () => {
   const [selectedUsers, setSelectedUsers] = useState(null);
   const [visible, setVisible] = useState(true);

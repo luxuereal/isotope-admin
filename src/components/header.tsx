@@ -1,8 +1,7 @@
 import Link from "next/link";
 
 import { GoChevronRight } from "react-icons/go"
-
-import { HeaderType } from "@/types";
+import { HeaderType } from "@/types/header.type";
 
 
 interface Headers {

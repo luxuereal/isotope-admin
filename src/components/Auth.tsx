@@ -35,8 +35,8 @@ const Auth = () => {
       <h1 className="text-[24px] mb-[40px] font-bold">Login</h1>
       <div className="p-10 rounded-md border-[1px] border-bordermain">
         <div className="flex flex-row gap-6">
-          <div className="text-[16px] font-semibold my-auto min-w-[90px] text-left">
-            Username
+          <div className="text-[16px] font-semibold my-auto min-w-[90px] text-left ">
+            Email
           </div>
           <InputText
             placeholder="Eg miaranger@gmail.com"

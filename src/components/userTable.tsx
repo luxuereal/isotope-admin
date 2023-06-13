@@ -7,10 +7,10 @@ import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 
 import Paginator from './paginator';
-import { User } from '@/types'
+import { users } from '@/types/users.type';
 
 interface Users {
-    users: User[] | any;
+    users: users[] | any;
     selectUser: (uid: string) => void;
 };
 
@@ -18,9 +18,9 @@ const UserTable = ({ users, selectUser }: Users) => {
 
     const router = useRouter();
     
-    const [datas, setDatas] = useState<User[]>([]);
+    const [datas, setDatas] = useState<users[]>([]);
 
-    const [row, setRow] = useState<User | null>(null);
+    const [row, setRow] = useState<users | null>(null);
 
     useEffect(() => setDatas(users), []);
 
@@ -28,15 +28,15 @@ const UserTable = ({ users, selectUser }: Users) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     };
 
-    const imageBodyTemplate = (type: User) => {
+    const imageBodyTemplate = (type: users) => {
         return <img src={``} alt={``} className="w-6rem shadow-2 border-round" />;
     };
 
-    const priceBodyTemplate = (type: User) => {
+    const priceBodyTemplate = (type: users) => {
         return formatCurrency(0);
     };
 
-    const ratingBodyTemplate = (type: User) => {
+    const ratingBodyTemplate = (type: users) => {
         return <Rating value={0} readOnly cancel={false} />;
     };
 
@@ -59,7 +59,7 @@ const UserTable = ({ users, selectUser }: Users) => {
                 value={datas} 
                 selectionMode="single" 
                 selection={row!} 
-                onSelectionChange={(e) => setRow(e.value as User)} 
+                onSelectionChange={(e) => setRow(e.value as users)} 
                 dataKey="uid"
                 onRowSelect={(e: DataTableSelectEvent) => selectUser(e.data.uid)} 
                 metaKeySelection={false} 

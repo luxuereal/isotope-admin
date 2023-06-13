@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSession } from "@supabase/auth-helpers-react";
 import useParticipantStore from "@/store/use-participant";
 
 import StatusNum from "@/components/statusNum";
 import Summary from "@/components/summary";
 import Header from "@/components/header";
 import Layout from "@/components/layout";
-import getUsers from "@/actions/getUsers";
-import getPermiumUsers from "@/actions/getPremiumUsers";
-import getOnlineUsers from "@/actions/getOnlineUsers";
-import getGenderState from "@/actions/getGenderState";
+import getUsers from "@/actions/dashboard/getUsers";
+import getPermiumUsers from "@/actions/dashboard/getPremiumUsers";
+import getOnlineUsers from "@/actions/dashboard/getOnlineUsers";
+import getGenderState from "@/actions/dashboard/getGenderState";
 
 const Home = () => {
   
@@ -61,7 +61,7 @@ const Home = () => {
       <div className="w-full">
         <Header headers={[{ href: "dashboard", name: "Dashboard" }]} />
         <section className="w-full p-8">
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid xl:grid-cols-4 grid-cols-2 gap-6">
             <StatusNum
               title="Number of registered users"
               value={registerd_users}
@@ -83,7 +83,7 @@ const Home = () => {
               isloading={isloading}
             />
           </div>
-          <div className="grid grid-cols-2 gap-6 mt-6">
+          <div className="grid xl:grid-cols-2 grid-cols-1 gap-6 mt-6">
             <Summary
               title="Summary of users state"
               data={users_state?.length ? users_state : []}

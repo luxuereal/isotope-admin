@@ -1,11 +1,8 @@
-import BubbleChart from "@/components/bubbleChart";
 import Header from "@/components/header";
 import Layout from "@/components/layout";
 import { LineChart } from "@/components/lineChart";
-import LocationSwitch from "@/components/locationSwitch";
 import TopLocations from "@/components/topLocations";
 import TotalNum from "@/components/totalNum";
-import { useState } from "react";
 
 const Analytics = () => {
   const totalSession = [
@@ -74,8 +71,8 @@ const Analytics = () => {
         <Header headers={[{ href: "analytics", name: "Analytics" }]} />
         <section className="w-full px-8">
           Analytics
-          <div className="grid grid-cols-2 gap-6">
-            <div className="w-full grid grid-cols-2 gap-6">
+          <div className="grid xl:grid-cols-2 grid-cols-1 gap-6">
+            <div className="w-full grid sm:grid-cols-2 grid-cols-1 gap-6">
               <TotalNum
                 title="Total Sessions"
                 value={430}
@@ -103,7 +100,7 @@ const Analytics = () => {
             </div>
             <TopLocations />
           </div>
-          <div className="grid grid-cols-2 gap-6 mt-6">
+          <div className="grid xl:grid-cols-2 grid-cols-1 gap-6 mt-6">
             <div className="w-full min-h-[350px] border-border border-[1px] rounded-[10px] p-5">
               <LineChart data={monthlyView} option={2} />
             </div>

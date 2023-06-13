@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { user_state } from '@/utils/database.types';
+import { user_state } from '@/types/users.type';
 
 type ProfileKey = "firstName" | "lastName" | "initials" | "org" | "norm" | "createdAt";
 

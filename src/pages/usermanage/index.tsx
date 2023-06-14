@@ -1,8 +1,3 @@
-import {
-  useSessionContext,
-  useUser,
-  useSupabaseClient,
-} from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 import { CgArrowRight } from "react-icons/cg";
@@ -12,14 +7,14 @@ import Layout from "@/components/layout";
 import Header from "@/components/header";
 import UserTable from "@/components/userTable";
 import Paginator from '@/components/paginator';
-import { Database } from "@/utils/database.types";
-import { users } from '@/types/users.type'
+import getTotalNum from "@/actions/usermanage/getTotalNum";
+import getProfiles from "@/actions/usermanage/getProfiles";
+import filterOptions from "@/utils/filterOptions";
+import { users } from '@/types/users.type';
 import { FilterUser } from "@/types/filter.type";
 
 const Dashboard = () => {
   const router = useRouter();
-  const { isLoading, session, error } = useSessionContext();
-  const supabase = useSupabaseClient<Database>();
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<Array<users> | any>();
   const [totalNum, setTotalNum] = useState<number>(0);
@@ -27,7 +22,8 @@ const Dashboard = () => {
   const [pageVal, setPageVal] = useState<{ start: number; end: number;}>({
     start: 0,
     end: itemsPerPage - 1
-  })
+  });
+  const [status, setStatus] = useState<number | boolean>(-1);
 
   const [filter, setFilter] = useState<FilterUser>({
     type: [],
@@ -36,121 +32,24 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    if (session) 
-      getData(pageVal);
-  }, [session, pageVal]);
-
-  async function getData(val: {
-    start: number;
-    end: number;
-  }) {
-    try {
+    (async () => {
       setLoading(true);
-
-      let calAge = (dt: users | any) => {
-        let thisYear = new Date().getFullYear();
-        if (dt.birthday) {
-          return thisYear - new Date(dt.birthday).getFullYear();
-        } else {
-          return null
-        }
-      }
-
-      let total = await supabase
-        .from("profiles")
-        .select("*", { count: "exact", head: true });
-
-      let datas = await supabase
-        .from("profiles")
-        .select(`uid, name, gender, birthday`)
-        .range(val.start, val.end);
-
-      console.log(datas);
-
-      if (total.error || datas.error) {
-        throw error;
-      }
-      if (datas.data && total.count) {
-        setTotalNum(total.count);
-        setUsers(
-          datas.data.map((dt, index) => ({
-            ...dt,
-            id: index + 1,
-            age: calAge(dt)
-          }))
-        );
-      }
-    } catch (error) {
-      alert("Error loading user data!");
-    } finally {
+      let count = typeof status === 'boolean' ? await getTotalNum(filter) : await getTotalNum();
+      let datas = typeof status === 'boolean' ? await getProfiles(pageVal, filter) : await getProfiles(pageVal);
+      setTotalNum(count);
+      setUsers(datas.map((dt: users) => ({
+        ...dt,
+        id: dt.id + pageVal.start
+      })));
       setLoading(false);
-    }
-  }
-
-  const options = {
-    type: [
-      { name: "Premium", code: true },
-      { name: "Standard", code: false },
-    ],
-    status: [
-      { name: "Suspended", code: "1" },
-      { name: "Flagged", code: "2" },
-    ],
-    gender: [
-      { name: "Man", code: "Man" },
-      { name: "Woman", code: "Woman" },
-      { name: "Transgender", code: "Transgender" },
-    ],
-  };
+    })();
+  }, [status, pageVal]);
 
   const selectUser = async (uid: string) => {
     await router.push(`usermanage/profile/${uid}`);
   }
 
-  const makeCondition = (field: string, arr: { name: string, code: string | boolean }[] | [] | null) => {
-    let str = '(';
-    if (arr && arr.length !== 0) {
-      arr.forEach((element, idx) => {
-        if (idx === arr.length - 1) {
-          str += `${element.code}`;
-        } else {
-          str += `${element.code},`;
-        }
-      });
-    } else {
-      switch (field) {
-        case 'type':
-          str += 'true,false';
-          break;
-        case 'status':
-          str += '0,1,2';
-          break;
-        default:
-          str += 'Man,Woman,Transgender';
-          break;
-      }
-    }  
-    str += ')';
-    console.log(str);
-    return str;
-  }
-
-  const clickFilter = async () => {
-    try {
-      let datas = await supabase
-        .from("profiles")
-        .select(`uid, name, gender, birthday, is_premium`)
-        .filter('is_premium', 'in', makeCondition('type', filter.type))
-        .filter('report_status', 'in', makeCondition('status', filter.status))
-        .filter('gender', 'in', makeCondition('gender', filter.gender));
-      
-        console.log(datas);
-
-        
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  const clickFilter = () => typeof status === 'boolean' ? setStatus(prevState => !prevState) : setStatus(true);
 
   return (
     <Layout>
@@ -174,7 +73,7 @@ const Dashboard = () => {
                       type: e.value,
                     }))
                   }
-                  options={options.type}
+                  options={filterOptions.type}
                   optionLabel="name"
                   placeholder="Account type"
                   maxSelectedLabels={3}
@@ -188,7 +87,7 @@ const Dashboard = () => {
                       status: e.value,
                     }))
                   }
-                  options={options.status}
+                  options={filterOptions.status}
                   optionLabel="name"
                   placeholder="Status"
                   maxSelectedLabels={3}
@@ -202,7 +101,7 @@ const Dashboard = () => {
                       gender: e.value,
                     }))
                   }
-                  options={options.gender}
+                  options={filterOptions.gender}
                   optionLabel="name"
                   placeholder="Gender"
                   maxSelectedLabels={3}
@@ -220,7 +119,7 @@ const Dashboard = () => {
           </>
         }
         <div className='flex justify-between items-center'>
-          <span>Showing {pageVal.start + 1} - {pageVal.end + 1} users of {totalNum}</span>
+          <span>Showing {pageVal.start + 1} - {pageVal.end + 1 > totalNum ? totalNum : pageVal.end + 1} users of {totalNum}</span>
           {
             totalNum === 0 
             ?

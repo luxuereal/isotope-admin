@@ -22,7 +22,7 @@ const Auth = () => {
       toast.current?.show({
         severity: "error",
         summary: error.message,
-        detail: "Email address or password exactly",
+        detail: "Email address or password ",
         life: 2000,
       });
     } else router.push("/dashboard");

@@ -71,6 +71,18 @@ td {
   border: 1px solid #e3e8f2;
 }
 
+tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+
+tbody > tr:last-child > td:first-child {
+  border-radius: 0 0 0 8px !important;
+}
+
+tbody > tr:last-child > td:last-child {
+  border-radius: 0 0 8px 0 !important;
+}
+
 .p-datatable-footer {
   background-color: transparent !important;
   border-bottom: none !important;

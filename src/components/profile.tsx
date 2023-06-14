@@ -1,20 +1,16 @@
 import Image from "next/image";
 
-import { xprofiles } from "@/types/profile.type";
+import { xprofile } from "@/types/profile.type";
 
-interface Profile {
-  profile: xprofiles;
-}
-
-const Profile = ({profile}: Profile) => {
+const Profile = ({profile}: xprofile) => {
 
   const bioFields:{ name:string; code:string }[] = [
-    { name: 'First Name', code: 'name' },
+    { name: 'First Name', code: 'fname' },
     { name: 'Last Name', code: 'lname' },
     { name: 'Gender', code: 'gender' },
     { name: 'Age', code: 'age' },
     { name: 'D.O.B', code: 'birthday' },
-    { name: 'Zodiac', code: 'zodiac_visibility' },
+    { name: 'Zodiac', code: 'zodiac' },
     { name: 'City', code: 'city' },
     { name: 'State', code: 'state' },
     { name: 'Country', code: 'country' },
@@ -28,13 +24,13 @@ const Profile = ({profile}: Profile) => {
     { name: 'Last Login Date', code: 'in_date' },
     { name: 'Last Login Time', code: 'in_time' },
     { name: 'Account Status', code: 'status' },
-    { name: 'Reported', code: 'reported' },
+    { name: 'Reported', code: 'report_status' },
     { name: 'Spotify', code: 'spotify' },
     { name: 'TikTok', code: 'tiktok' },
     { name: 'Meme', code: 'meme' },
     { name: 'Movie/TV', code: 'movie' },
     { name: 'Stories', code: 'stories' },
-    { name: 'Dating/Friends', code: 'dating_fr' },
+    { name: 'Dating/Friends', code: 'dt_fr' },
   ]
 
   const bioRowNum:number = Math.ceil((bioFields.length - 1) / 6 );

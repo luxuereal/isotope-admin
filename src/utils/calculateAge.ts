@@ -1,9 +1,10 @@
-import { users } from '@/types/users.type'
-
 export const calculateAge = (birthday: string ) => {
-  let thisYear = new Date().getFullYear();
   if (birthday) {
-    return thisYear - new Date(birthday).getFullYear();
+    let today = new Date(),
+      dob = new Date(birthday),
+      diff = today.getTime() - dob.getTime(),
+      years = Math.floor(diff / 31556736000);
+    return years;
   } else {
     return null
   }

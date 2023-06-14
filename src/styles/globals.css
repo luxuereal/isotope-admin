@@ -33,10 +33,26 @@ body {
   src: url("../../public/fonts/Matter/Matter-Regular.otf");
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  margin-top: 10px;
+  z-index: 99998;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,.1);
+  border: 3px solid white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2);
+  border-radius: 10px;
+}
+
 .p-datatable {
   border-radius: 8px;
   border: 1px solid #e3e8f2;
-  /* padding: 1px; */
 }
 
 thead > tr > th {
@@ -102,4 +118,19 @@ tbody > tr:last-child > td:last-child {
 .select-right {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+
+video {
+  border-radius: 6px !important;
+}
+
+@media screen and (max-width: 640px) {
+  .p-multiselect {
+    border-radius: 6px !important;
+    border-left: 1px solid #e3e8f2 !important;
+  }
+  .check-btn {
+    height: 40px !important;
+    border-radius: 6px !important;
+  }
 }

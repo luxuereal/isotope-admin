@@ -27,9 +27,9 @@ const UserTable = ({ users, selectUser }: Users) => {
                 dataKey="uid"
                 onRowSelect={(e: DataTableSelectEvent) => selectUser(e.data.uid)} 
                 metaKeySelection={false} 
-                tableStyle={{ minWidth: '60rem' }}
+                tableStyle={{ minWidth: '30rem' }}
             >
-                <Column field="id" header="S/N"></Column>
+                <Column field="id" header="S/N" className='min-w-[40px]'></Column>
                 <Column field="uid" header="User ID"></Column>
                 <Column field="name" header="Name"></Column>
                 <Column field="gender" header="Gender"></Column>

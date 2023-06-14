@@ -36,16 +36,16 @@ const Profile = ({profile}: xprofile) => {
 
   return (
     <>
-      <div className="rounded-md border border-border w-full h-30 p-5 flex justify-between">
-        <div className="h-20 flex items-center font-bold text-xl">
+      <div className="rounded-md border border-border w-full h-30 sm:p-5 p-2 xl:flex xl:justify-between">
+        <div className="h-20 sm:flex items-center font-bold xl:text-xl sm:text-base text-xs xl:mb-0 sm:mb-2 xs:mb-8 mb-16">
           <Image width='200' height='200' src={profile.photos ? JSON.parse(profile.photos)[0] : '/user/01.png'} className="w-20 h-20 object-cover rounded-full border-2 border-black mr-4" alt="" />
-          ID:&nbsp;{profile.uid}
+          <span className="break-all">ID:&nbsp;{profile.uid}</span>
         </div>
-        <div className="flex gap-4 items-center">
-          <button className="rounded-md border border-border whitespace-nowrap text-black px-4 py-2">Send Message</button>
-          <button className="rounded-md border border-border text-black px-4 py-2">Suspend</button>
-          <span className="border-l border-border h-10"></span>
-          <button className="rounded-md bg-green text-white px-4 py-2">Verify</button>
+        <div className="flex sm:flex-row flex-col gap-4 sm:items-center items-end justify-end xs:text-base text-sm">
+          <button className="rounded-md border border-border whitespace-nowrap text-black sm:px-4 sm:py-2 px-2 py-1">Send Message</button>
+          <button className="rounded-md border border-border text-black sm:px-4 sm:py-2 px-2 py-1">Suspend</button>
+          <span className="border-l border-border h-10 sm:inline-block hidden"></span>
+          <button className="rounded-md bg-green text-white sm:px-4 sm:py-2 px-2 py-1">Verify</button>
         </div>
       </div>
 
@@ -53,12 +53,12 @@ const Profile = ({profile}: xprofile) => {
         <div className="bg-grayback text-normaltext p-4">
           Bio Data
         </div>
-        <div className="w-full grid md:grid-cols-6 sm:grid-cols-4 p-1 border-collapse gap-1">
+        <div className="w-full sm:text-base text-sm grid xl:grid-cols-6 md:grid-cols-4 sm:grid-cold-3 xs:grid-cols-2 grid-cols-1 p-1 border-collapse gap-1">
           {
             bioFields.map((field, idx) =>
-              <div className="p-4 border border-border" key={`bio-ele-${idx}`}>
+              <div className="p-4 border border-border rounded-sm" key={`bio-ele-${idx}`}>
                 <p className="text-normaltext mb-2">{field['name']}</p>
-                <p className="text-black font-bold">{profile[field['code']] || 'None'}</p>
+                <p className="text-black font-bold break-all">{profile[field['code']] || 'None'}</p>
               </div>
             )
           }
@@ -70,12 +70,12 @@ const Profile = ({profile}: xprofile) => {
         <div className="bg-grayback text-normaltext p-4">
           Account Information
         </div>
-        <div className="w-full grid md:grid-cols-6 sm:grid-cols-4 p-1 border-collapse gap-1">
+        <div className="w-full sm:text-base text-sm grid xl:grid-cols-6 md:grid-cols-4 sm:grid-cold-3 xs:grid-cols-2 grid-cols-1 p-1 border-collapse gap-1">
           {
             infoFields.map((field, idx) =>
-              <div className="p-4 border border-border" key={`info-ele-${idx}`}>
+              <div className="p-4 border border-border rounded-sm" key={`info-ele-${idx}`}>
                 <p className="text-normaltext mb-2">{field['name']}</p>
-                <div className="text-black font-bold">
+                <div className="text-black font-bold break-all">
                   {
                     field['code'] === 'status' 
                     ? profile[field['code']] 
@@ -96,12 +96,11 @@ const Profile = ({profile}: xprofile) => {
                                     controls
                                     url={profile[field['code']]}
                                   />
-                            // : 
-                            // field['code'] === 'spotify' || field['code'] === 'stories'
-                            //     ? JSON.parse(profile[field['code']]).length !== 0
-                            //         ? <Image width="200" height="200" className="w-16 h-16" src={JSON.parse(profile[field['code']])[0]} alt="" />
-                            //         : 'None'
-                                : profile[field['code']] || 'None'
+                                : field['code'] === 'spotify' || field['code'] === 'stories'
+                                    ? profile[field['code']] && profile[field['code']] !== '[]'
+                                        ? <Image width="200" height="200" className="w-20 h-20 rounded-md drop-shadow-md" src={JSON.parse(profile[field['code']])[0]} alt="" />
+                                        : 'None'
+                                    : profile[field['code']] || 'None'
                   }
                 </div>
               </div>
@@ -111,7 +110,7 @@ const Profile = ({profile}: xprofile) => {
       </div>
 
       <div className="rounded-md bg-grayback border border-border w-full p-5">
-        <p className="mb-4 text-normaltext font-bold text-xl">Verification Selfie</p>
+        <p className="mb-4 text-normaltext font-bold sm:text-xl text-base">Verification Selfie</p>
         <div className="h-20">
           <Image width='200' height='200' src={profile.photos ? JSON.parse(profile.photos)[0] : '/user/01.png'} className="w-20 h-20 object-cover rounded-full border-2 border-black mr-4" alt="" />
         </div>

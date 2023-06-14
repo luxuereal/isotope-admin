@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { DataTable, DataTableSelectEvent } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
 import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
 
-import Paginator from './paginator';
 import { users } from '@/types/users.type';
 
 interface Users {
@@ -15,8 +11,6 @@ interface Users {
 };
 
 const UserTable = ({ users, selectUser }: Users) => {
-
-    const router = useRouter();
     
     const [datas, setDatas] = useState<users[]>([]);
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 
 interface paginator {
@@ -11,7 +11,11 @@ interface paginator {
 
 const Paginator = ({ items, itemsPerPage, handleChange }: paginator) => {
 
-  const [pageCount] = useState<number>(Math.ceil(items / itemsPerPage));
+  const [pageCount, setPageCount] = useState<number>(1);
+
+  useEffect(() => {
+    setPageCount(Math.ceil(items / itemsPerPage))
+  }, [items])
 
   const handlePageClick = (event: any) => {
     const newOffset = event.selected * itemsPerPage;

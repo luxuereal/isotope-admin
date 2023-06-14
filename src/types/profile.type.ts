@@ -21,21 +21,31 @@ export type profiles = {
     gender?: string;
   };
   
-export type xprofiles = profiles & {
+export type xprofile = {
+    uid?: string;
+    photos?: string;
+    fname?: string; 
     lname?: string;
+    gender?: string;
     age?: number;
+    birthday?: string;
+    zodiac?: string;
     city?: string;
     state?: string;
     country?: string;
+    phone_number?: string;
+    email?: string;
     up_date?: string;
     up_time?: string;
     in_date?: string;
-    in_time?: string;
+    in_time?:string;
     status?: boolean;
-    phone_number?: string;
-    email?: string;
-    reported?: boolean;
+    report_status?: boolean;
+    spotify?: string;
+    tiktok?: string;
+    meme?: string;
+    movie?: string;
     stories?: string;
-    dating_fr?: string;
+    dt_fr?: string;
     [key: string]: any;
 }

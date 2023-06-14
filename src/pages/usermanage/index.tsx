@@ -59,10 +59,10 @@ const Dashboard = () => {
           "Loading..."
         ) :
           <>
-            <div className="flex text-xl justify-between mb-4 font-bold items-center">
-              <span className="text-2xl">{totalNum} Users</span>
-              <div className="flex">
-                <span className="w-20 mr-4 whitespace-nowrap flex items-center">
+            <div className="flex md:flex-row flex-col text-xl sm:justify-between mb-4 font-bold items-center">
+              <span className="md:text-2xl text-base md:mb-0 mb-6">{totalNum} Users</span>
+              <div className="flex sm:flex-row flex-col sm:gap-0 gap-1 !md:text-base !text-xs">
+                <span className="w-20 mr-4 whitespace-nowrap flex items-center !text-base">
                   Filter by:&nbsp;&nbsp;
                 </span>
                 <MultiSelect
@@ -77,7 +77,7 @@ const Dashboard = () => {
                   optionLabel="name"
                   placeholder="Account type"
                   maxSelectedLabels={3}
-                  className="w-full md:w-20rem select-left"
+                  className="w-full select-left"
                 />
                 <MultiSelect
                   value={filter?.status}
@@ -91,7 +91,7 @@ const Dashboard = () => {
                   optionLabel="name"
                   placeholder="Status"
                   maxSelectedLabels={3}
-                  className="w-full md:w-20rem select-center"
+                  className="w-full select-center"
                 />
                 <MultiSelect
                   value={filter?.gender}
@@ -105,9 +105,9 @@ const Dashboard = () => {
                   optionLabel="name"
                   placeholder="Gender"
                   maxSelectedLabels={3}
-                  className="w-full md:w-20rem select-center"
+                  className="w-full select-center"
                 />
-                <button className="bg-deepback text-white rounded-r-md px-4 text-xl" onClick={clickFilter}>
+                <button className="check-btn bg-deepback text-white rounded-r-md px-4 text-xl" onClick={clickFilter}>
                   <CgArrowRight />
                 </button>
               </div>

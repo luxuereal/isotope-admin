@@ -10,7 +10,7 @@ interface Headers {
 
 const Header = ({ headers } : Headers) => {
   return (
-    <header className="w-full text-black font-matter text-xl font-bold h-16 p-4 px-8 border-b border-b-grayback flex items-center">
+    <header className="w-full text-black font-matter md:text-xl sm:text-base text-sm font-bold h-16 p-4 px-8 border-b border-b-grayback flex items-center">
       {
         headers.map((header, idx) => 
             idx === headers.length - 1 

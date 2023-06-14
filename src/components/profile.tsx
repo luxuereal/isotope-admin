@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ReactPlayer from "react-player";
 
 import { xprofile } from "@/types/profile.type";
 
@@ -33,13 +34,6 @@ const Profile = ({profile}: xprofile) => {
     { name: 'Dating/Friends', code: 'dt_fr' },
   ]
 
-  const bioRowNum:number = Math.ceil((bioFields.length - 1) / 6 );
-
-  const infoRowNum:number = Math.ceil((bioFields.length - 1) / 6 );
-
-
-
-
   return (
     <>
       <div className="rounded-md border border-border w-full h-30 p-5 flex justify-between">
@@ -59,38 +53,16 @@ const Profile = ({profile}: xprofile) => {
         <div className="bg-grayback text-normaltext p-4">
           Bio Data
         </div>
-        <table className="w-full border-collapse">
-          <tbody>
-            {
-              [...Array(bioRowNum)].map((tr, idx) =>
-                <tr key={`tr-${idx}`} className="">
-                  {idx !== bioRowNum - 1
-                    ?
-                      [...Array(6)].map((td, id) =>
-                        <td className="p-4 w-[16.66%] first:border-l-0" key={`td-${idx}-${id}`}>
-                          <p className="text-normaltext mb-2">{bioFields[idx * 6 + id]['name']}</p>
-                          <p className="text-black font-bold">{profile[bioFields[idx * 6 + id]['code']] || 'None'}</p>
-                        </td>
-                      )
-                    :
-                      [...Array(6)].map((td, id) =>
-                        <td className="p-4 w-[16.66%] first:border-l-0 border-b-0" key={`td-${idx}-${id}`}>
-                          {id < bioFields.length - 6 * idx
-                            ? <>
-                                <p className="text-normaltext mb-2">{bioFields[idx * 6 + id]['name']}</p>
-                                <p className="text-black font-bold">{profile[bioFields[idx * 6 + id]['code']] || 'None'}</p>
-                              </>
-                            : <></>
-                          }                        
-                        </td>
-                      )
-                    }
-                  
-                </tr>
-              )
-            }
-          </tbody>
-        </table>
+        <div className="w-full grid md:grid-cols-6 sm:grid-cols-4 p-1 border-collapse gap-1">
+          {
+            bioFields.map((field, idx) =>
+              <div className="p-4 border border-border" key={`bio-ele-${idx}`}>
+                <p className="text-normaltext mb-2">{field['name']}</p>
+                <p className="text-black font-bold">{profile[field['code']] || 'None'}</p>
+              </div>
+            )
+          }
+        </div>
       </div>
       
 
@@ -98,48 +70,44 @@ const Profile = ({profile}: xprofile) => {
         <div className="bg-grayback text-normaltext p-4">
           Account Information
         </div>
-        <table className="w-full border-collapse">
-          <tbody>
-            {
-              [...Array(infoRowNum)].map((tr, idx) =>
-                <tr key={`tr-${idx}`}>
-                  {idx !== infoRowNum - 1
-                    ?
-                      [...Array(6)].map((td, id) =>
-                        <td className="p-4 w-[16.66%] gap-y-6 first:border-l-0" key={`td-${idx}-${id}`}>
-                          <p className="text-normaltext mb-2">{infoFields[idx * 6 + id]['name']}</p>
-                          <p className="text-black font-bold">{
-                            infoFields[idx * 6 + id]['code'] === 'status' 
-                              ? profile[infoFields[idx * 6 + id]['code']] 
-                                  ? <span className="text-green">Active</span>
-                                  : <span className="text-pink">Passive</span>
-                              : infoFields[idx * 6 + id]['code'] === 'reported' 
-                                  ? profile[infoFields[idx * 6 + id]['code']] 
-                                      ? 'Yes'
-                                      : 'No'
-                                  : profile[infoFields[idx * 6 + id]['code']] 
-                          }</p>
-                        </td>
-                      )
-                    :
-                      [...Array(6)].map((td, id) =>
-                        <td className="p-4 w-[16.66%] gap-y-6 first:border-l-0 border-b-0" key={`td-${idx}-${id}`}>
-                          {id < infoFields.length - 6 * idx
-                            ? <>
-                                <p className="text-normaltext mb-2">{infoFields[idx * 6 + id]['name']}</p>
-                                <p className="text-black font-bold">{profile[infoFields[idx * 6 + id]['code']] || 'None'}</p>
-                              </>
-                            : <></>
-                          }                        
-                        </td>
-                      )
-                    }
-                  
-                </tr>
-              )
-            }
-          </tbody>
-        </table>
+        <div className="w-full grid md:grid-cols-6 sm:grid-cols-4 p-1 border-collapse gap-1">
+          {
+            infoFields.map((field, idx) =>
+              <div className="p-4 border border-border" key={`info-ele-${idx}`}>
+                <p className="text-normaltext mb-2">{field['name']}</p>
+                <div className="text-black font-bold">
+                  {
+                    field['code'] === 'status' 
+                    ? profile[field['code']] 
+                        ? <span className="text-green">Active</span>
+                        : <span className="text-pink">Passive</span>
+                    : field['code'] === 'report_status' 
+                        ? profile[field['code']] 
+                            ? 'Yes'
+                            : 'No'
+                        : field['code'] === 'tiktok' || field['code'] === 'meme'
+                            ? profile[field['code']] 
+                                ? <Image width="200" height="200" className="w-20 h-20 rounded-md drop-shadow-md" src={profile[field['code']]} alt="" />
+                                : 'None'
+                            : field['code'] === 'movie'
+                                ? <ReactPlayer
+                                    width="80"
+                                    height="30" 
+                                    controls
+                                    url={profile[field['code']]}
+                                  />
+                            // : 
+                            // field['code'] === 'spotify' || field['code'] === 'stories'
+                            //     ? JSON.parse(profile[field['code']]).length !== 0
+                            //         ? <Image width="200" height="200" className="w-16 h-16" src={JSON.parse(profile[field['code']])[0]} alt="" />
+                            //         : 'None'
+                                : profile[field['code']] || 'None'
+                  }
+                </div>
+              </div>
+            )
+          }
+        </div>
       </div>
 
       <div className="rounded-md bg-grayback border border-border w-full p-5">

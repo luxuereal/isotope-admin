@@ -19,7 +19,7 @@ export type profiles = {
     meme?: string;
     movie?: string;
     gender?: string;
-  };
+};
   
 export type xprofile = {
     uid?: string;

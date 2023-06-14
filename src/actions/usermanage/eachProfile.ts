@@ -14,7 +14,6 @@ export default async function eachProfile(uid: string) {
   if(response.ok === false)
       return 0;
   const { data } = await response.json();
-  console.log(data);
 
   return {
     uid: data.uid,
@@ -40,7 +39,7 @@ export default async function eachProfile(uid: string) {
     tiktok: data.profiles ? data.profiles.tiktok : null,
     meme: data.profiles ? data.profiles.meme : null,
     movie: data.profiles ? data.profiles.movie : null,
-    stories: data.profiles ? data.profiles.stories : null,
+    stories: data.stories ? data.stories.images : null,
     dt_fr: null
   };
 }

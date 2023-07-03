@@ -22,10 +22,14 @@ export default async function getDisputes(val: {
 
   return data.map((dt: disputesRes, idx: number) => ({
     id: idx + 1,
-    uid: dt.uid,
+    uid: dt.reportee,
+    email: dt.profiles ? dt.profiles.users ? dt.profiles.users.email : null : null,
+    phone_number: dt.profiles ? dt.profiles.users ? dt.profiles.users.phone_number : null : null,
     name: dt.profiles ? dt.profiles.name : null,
     gender: dt.profiles ? dt.profiles.gender : null,
-    reporter: dt.disputes ? dt.disputes.reporter : null,
-    reason: dt.disputes ? dt.disputes.reason : null
+    reporter: dt.reporter,
+    by_email: dt.users ? dt.users.eamil : null,
+    by_phone_number: dt.users ? dt.users.phone_number : null,
+    reason: dt.reason
   }));   
 }

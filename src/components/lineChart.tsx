@@ -48,8 +48,6 @@ const options: ChartOptions<"line"> = {
       grid: {
         display: false,
       },
-      min: 0,
-      max: 1.1,
 
       ticks: {
         // forces step size to be 50 units
@@ -85,9 +83,9 @@ const bezier: ChartOptions<"line"> = {
           family: "Inter",
         },
         color: "#000000",
-        boxWidth: 15,
+        boxWidth: 16,
         useBorderRadius: true,
-        borderRadius: 7,
+        borderRadius: 8,
       },
     },
   },

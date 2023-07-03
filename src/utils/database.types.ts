@@ -1,13 +1,13 @@
 import { subscriptions } from "@/types/subscription.type";
 import { profiles } from '@/types/profile.type'
 import { status } from "@/types/status.type";
-import { users } from "@/types/users.type";
-
+import { db_users } from "@/types/users.type";
+import { history } from "@/types/history.type";
 export interface Database {
   public: {
     Tables: {
       users: {
-        Row: users;
+        Row: db_users;
       };
       profiles: {
         Row: profiles;
@@ -16,6 +16,9 @@ export interface Database {
         Row: subscriptions;
       }
       status: {
+        Row: status;
+      }
+      history: {
         Row: status;
       }
     };

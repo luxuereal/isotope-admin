@@ -11,18 +11,17 @@ export default async function handler(
 ) {
   const supabase = createPagesBrowserClient<Database>();
   try {
-
     let { data, error, status } = req.body.filter.length === 0 
       ? await supabase
-        .from("users")
-        .select(`uid, profiles (name, gender, birthday)`)
+        .from("profiles")
+        .select(`uid, name, gender, birthday, users (email, phone_number)`)
         .range(req.body.range.start, req.body.range.end)
       : await supabase
-        .from("users")
-        .select(`uid, profiles (name, gender, birthday)`)
-        .filter('is_premium', 'in', genCondition('type', req.body.filter.type))
-        .filter('report_status', 'in', genCondition('status', req.body.filter.status))
-        .filter('profiles.gender', 'in', genCondition('gender', req.body.filter.gender))
+        .from("profiles")
+        .select(`uid, name, gender, birthday, users!inner (is_premium, report_status, email, phone_number)`)
+        .in('users.is_premium', genCondition('type', req.body.filter.type))
+        .in('users.report_status', genCondition('status', req.body.filter.status))
+        .in('gender', genCondition('gender', req.body.filter.gender))
         .range(req.body.range.start, req.body.range.end)
 
     if (error && status !== 406) {

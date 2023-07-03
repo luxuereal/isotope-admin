@@ -25,8 +25,10 @@ export default async function filterProfiles(val: {
   return data.map((dt: userRes, idx: number) => ({
     id: idx + 1,
     uid: dt.uid,
-    name: dt.profiles ? dt.profiles.name : null,
-    gender: dt.profiles ? dt.profiles.gender : null,
-    age: dt.profiles ? calculateAge(dt.profiles.birthday) : null
+    email: dt.users ? dt.users.email : null,
+    phone_number: dt.users ? dt.users.phone_number : null,
+    name: dt.name,
+    gender: dt.gender,
+    age: calculateAge(dt.birthday)
   }));   
 }

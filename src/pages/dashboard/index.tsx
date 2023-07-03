@@ -8,13 +8,11 @@ import Summary from "@/components/summary";
 import Header from "@/components/header";
 import Layout from "@/components/layout";
 import getUsers from "@/actions/dashboard/getUsers";
-import getPermiumUsers from "@/actions/dashboard/getPremiumUsers";
 import getOnlineUsers from "@/actions/dashboard/getOnlineUsers";
 import getGenderState from "@/actions/dashboard/getGenderState";
 
 const Home = () => {
-  
-  const [isloading, setLoading ] = useState(true);
+  const [isloading, setLoading] = useState(true);
 
   const {
     registerd_users,
@@ -37,24 +35,20 @@ const Home = () => {
     (async () => {
       //Call actions and Skeleton true
       setLoading(true);
-      let data = await getUsers();
-      let premiumusers = await getPermiumUsers();
-      let userdata = await getOnlineUsers();
-      let genderstate = await getGenderState();
-      
-      //Set datas to components
-      setRegisteredUsers(data.registered);
-      setActiveUsers(data.active);
-      setPremiumUsers(premiumusers);
-      if (typeof userdata === 'object' && userdata !== null) 
-      {
-        setUserState(userdata.address);
-        setOnlineUsers(userdata.is_online)
-      }
-      if (Array.isArray(genderstate)) setGenderState(genderstate);
+      await getUsers(setRegisteredUsers,setActiveUsers,setPremiumUsers);
+      await getOnlineUsers(false,setUserState,setOnlineUsers);
+      await getGenderState(setGenderState);
       setLoading(false); //Skeleton false
     })();
-  }, [setGenderState, setOnlineUsers, setPremiumUsers, setUserState,setRegisteredUsers, setActiveUsers, session]);
+  }, [
+    setGenderState,
+    setOnlineUsers,
+    setPremiumUsers,
+    setUserState,
+    setRegisteredUsers,
+    setActiveUsers,
+    session,
+  ]);
 
   return (
     <Layout>
@@ -67,31 +61,31 @@ const Home = () => {
               value={registerd_users}
               isloading={isloading}
             />
-            <StatusNum 
-              title="Number of active users" 
-              value={active_users} 
+            <StatusNum
+              title="Number of active users"
+              value={active_users}
               isloading={isloading}
             />
-            <StatusNum 
-              title="Number of premium users" 
-              value={premium_users} 
+            <StatusNum
+              title="Number of premium users"
+              value={premium_users}
               isloading={isloading}
             />
-            <StatusNum 
-              title="Number of users online" 
-              value={online_users} 
+            <StatusNum
+              title="Number of users online"
+              value={online_users}
               isloading={isloading}
             />
           </div>
           <div className="grid xl:grid-cols-2 grid-cols-1 gap-6 mt-6">
             <Summary
-              title="Summary of users state"
+              title="State Demographics"
               data={users_state?.length ? users_state : []}
               color="#3576F4"
               isloading={isloading}
             />
             <Summary
-              title="Summary of users state"
+              title="User Gender Demographics"
               data={gender_state}
               color="#FAC137"
               isloading={isloading}

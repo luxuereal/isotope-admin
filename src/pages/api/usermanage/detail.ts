@@ -12,12 +12,13 @@ export default async function handler(
   try {
     let { data, error, status } = await supabase
       .from("users")
-      .select(`email, phone_number, is_disabled, report_status, uid, profiles (*), status (address), stories (images)`)
+      .select(`email, phone_number, fcm_token, is_disabled, is_deleted, report_status, is_verified, uid, selfie, profiles (*, disputes ( reportee )), status (address), stories (images)`)
       .eq('uid', req.body.uid);
 
     if (error && status !== 406) {
       throw error;
     }
+
     if (data) {
       res.status(200).json({ data: data[0] });
     }

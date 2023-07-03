@@ -13,22 +13,20 @@ export default async function handler(
   try {
     let { count, error, status } = req.body.filter.length === 0 
       ? await supabase
-        .from("users")
+        .from("profiles")
         .select("*", { count: "exact", head: true })
       : await supabase
-        .from("users")
-        .select(`profiles(gender)`, { count: "exact", head: true })
-        .filter('is_premium', 'in', genCondition('type', req.body.filter.type))
-        .filter('report_status', 'in', genCondition('status', req.body.filter.status))
-        .filter('profiles.gender', 'in', genCondition('gender', req.body.filter.gender))
+        .from("profiles")
+        .select(`gender, users!inner ( is_premium, report_status )`, { count: "exact", head: true })
+        .in('gender', genCondition('gender', req.body.filter.gender))
+        .in('users.is_premium', genCondition('type', req.body.filter.type))
+        .in('users.report_status', genCondition('status', req.body.filter.status))
 
     if (error && status !== 406) {
       throw error;
-    }
-    if (count) {
+    } else {
       res.status(200).json({ count });
     }
-    
   } catch (error) {
     res.status(500).json({ data: SERVER_ERR_MSG });
   }

@@ -13,7 +13,7 @@ export default async function handler(
     try {
         let { data, error, status } = await supabase
             .from("users")
-            .select(`uid, is_disabled`);
+            .select(`uid, profiles(name), is_premium, fcm_token, is_disabled`);
         if (error && status !== 406) {
             throw error;
         }

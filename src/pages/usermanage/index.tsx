@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
+import { Skeleton } from "primereact/skeleton"; 
 import { CgArrowRight } from "react-icons/cg";
 import { useRouter } from "next/router";
 
@@ -9,20 +10,21 @@ import UserTable from "@/components/userTable";
 import Paginator from '@/components/paginator';
 import getTotalNum from "@/actions/usermanage/getTotalNum";
 import getProfiles from "@/actions/usermanage/getProfiles";
-import filterOptions from "@/utils/filterOptions";
+import { filterOptions } from "@/utils/constant";
 import { users } from '@/types/users.type';
 import { FilterUser } from "@/types/filter.type";
+import { itemsPerPage } from "@/utils/constant";
 
 const Dashboard = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<Array<users> | any>();
   const [totalNum, setTotalNum] = useState<number>(0);
-  const [itemsPerPage] = useState<number>(3);
-  const [pageVal, setPageVal] = useState<{ start: number; end: number;}>({
+  const [pageVal, setPageVal] = useState<{ start: number; end: number }>({
     start: 0,
     end: itemsPerPage - 1
   });
+
   const [status, setStatus] = useState<number | boolean>(-1);
 
   const [filter, setFilter] = useState<FilterUser>({
@@ -31,32 +33,67 @@ const Dashboard = () => {
     gender: [],
   });
 
+  const getData = useCallback( async () => {
+    setLoading(true);
+    let count = typeof status === 'boolean' ? await getTotalNum(filter) : await getTotalNum();
+    let datas = typeof status === 'boolean' ? await getProfiles(pageVal, filter) : await getProfiles(pageVal);
+    setTotalNum(count);
+    
+    setUsers(datas.map((dt: users) => ({
+      ...dt,
+      id: dt.id + pageVal.start,
+      phone: dt.email ? '' : dt.phone_number
+    })));
+    setLoading(false);
+  }, [status, pageVal])
+
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      let count = typeof status === 'boolean' ? await getTotalNum(filter) : await getTotalNum();
-      let datas = typeof status === 'boolean' ? await getProfiles(pageVal, filter) : await getProfiles(pageVal);
-      setTotalNum(count);
-      setUsers(datas.map((dt: users) => ({
-        ...dt,
-        id: dt.id + pageVal.start
-      })));
-      setLoading(false);
-    })();
-  }, [status, pageVal]);
+    getData()
+  }, [getData]);
 
   const selectUser = async (uid: string) => {
     await router.push(`usermanage/profile/${uid}`);
   }
 
-  const clickFilter = () => typeof status === 'boolean' ? setStatus(prevState => !prevState) : setStatus(true);
+  const clickFilter = () => {
+    setPageVal({
+      start: 0,
+      end: itemsPerPage - 1
+    })
+    typeof status === 'boolean' ? setStatus(prevState => !prevState) : setStatus(true);
+  }
 
   return (
     <Layout>
       <Header headers={[{ href: '/usermanage', name: 'User Management'}]} />
       <section className="w-full p-8">
         {loading ? (
-          "Loading..."
+          <>
+            <div className="flex md:flex-row flex-col text-xl sm:justify-between mb-4 font-bold items-center">
+              <Skeleton width="10%" />
+              <Skeleton width="30%" />
+            </div>
+            <div className="p-datatable-wrapper w-full">
+              <table className="p-datatable w-full">
+                <thead>
+                  <tr>
+                    <th className="p-6">
+                      <Skeleton width="100%" />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array(itemsPerPage).fill('').map((ele, idx) =>
+                    <tr key={`ske-${idx}`} className="p-4">
+                      <td className="p-6">
+                        <Skeleton width="100%" />
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
         ) :
           <>
             <div className="flex md:flex-row flex-col text-xl sm:justify-between mb-4 font-bold items-center">
@@ -67,7 +104,7 @@ const Dashboard = () => {
                 </span>
                 <MultiSelect
                   value={filter?.type}
-                  onChange={(e: MultiSelectChangeEvent) =>
+                  onChange={(e: MultiSelectChangeEvent) => 
                     setFilter((prevState: FilterUser) => ({
                       ...prevState,
                       type: e.value,
@@ -118,18 +155,25 @@ const Dashboard = () => {
             />
           </>
         }
-        <div className='flex justify-between items-center'>
-          <span>Showing {pageVal.start + 1} - {pageVal.end + 1 > totalNum ? totalNum : pageVal.end + 1} users of {totalNum}</span>
-          {
-            totalNum === 0 
-            ?
-              <></>
-            :
-            <Paginator
-              items={totalNum}
-              itemsPerPage={itemsPerPage}
-              handleChange={setPageVal}
-            />
+        <div className='flex min-[480px]:flex-row flex-col min-[480px]:justify-between justify-items-stretch min-[480px]:items-center mt-4'>
+          {totalNum === 0
+          ?
+            loading ?<>
+              <Skeleton width="20%" />
+              <Skeleton width="20%" />
+            </> : <></>
+          :
+          <>
+            {loading ? <Skeleton width="20%" /> : <span className="min-[480px]:text-md text-sm min-[480px]:mb-0 mb-4">Showing {pageVal.start + 1} - {pageVal.end + 1 > totalNum ? totalNum : pageVal.end + 1} users of {totalNum}</span>}
+            <div className="relative">
+              <Paginator
+                key={`paginate-${status}`}
+                items={totalNum}
+                itemsPerPage={itemsPerPage}
+                handleChange={setPageVal}
+              />
+            </div>
+          </>
           }
         </div>
       </section>

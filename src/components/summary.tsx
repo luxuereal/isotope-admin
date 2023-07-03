@@ -24,16 +24,16 @@ const Summary: React.FC<props> = ({ title, data, color, isloading }) => {
         {data.map((item, idx) => (
           <div
             key={`summary-${idx}`}
-            className="flex flex-row sm:gap-3 gap-1 justify-items-stretch h-10"
+            className="flex flex-row sm:gap-3 gap-0 justify-items-stretch "
           >
-            <span className="flex-none sm:min-w-[120px] min-w-[75px] my-auto sm:text-[14px] text-[10px]">{item.name}</span>
-            <div className="grow my-auto">
+            <span className="sm:py-[10px] py-[5px]  flex-none w-[120px] sm:min-w-[120px] min-w-[75px] my-auto sm:text-[14px] text-[10px]">{item.name}</span>
+            <div className="grow my-auto sm:py-[10px] py-[5px]">
               <div
                 className="sm:h-4 rounded-[4px] h-2 "
                 style={{ width: `${(item.value / data[0].value) * 100}%`, background:`${color}`, opacity:`${1-idx/data.length}` }}
               ></div>
             </div>
-            <span className="flex-none sm:min-w-[50px] min-w-[25px] text-right my-auto sm:text-[14px] text-[10px]">
+            <span className="sm:py-[10px] py-[5px] flex-none sm:min-w-[50px] min-w-[25px] text-right my-auto sm:text-[14px] text-[10px]">
               {item.value}
             </span>
           </div>

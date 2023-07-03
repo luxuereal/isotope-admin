@@ -24,7 +24,7 @@ const Navigation = ({ links }: Links) => {
     if (error) {
       alert(error)
     } else {
-      router.push('/signin');
+      router.reload();
     };
   };
 
@@ -39,18 +39,18 @@ const Navigation = ({ links }: Links) => {
             >
               <li 
                 className={`w-full transition-colors lg:px-4 px-2 py-2 my-2 hover:bg-white hover:rounded-md hover:drop-shadow-md hover:text-black ${pathname ? pathname.startsWith(link.href) ? 'bg-white rounded-md drop-shadow-md text-black' : '' : ''}`}>
-                  <span className="flex items-center"><link.icon /><span className='lg:block hidden'>&nbsp;&nbsp;&nbsp;{link.name}</span></span>
+                  <span className="flex items-center"><link.icon /><span className='max-[1024px]:hidden'>&nbsp;&nbsp;&nbsp;{link.name}</span></span>
               </li>
             </Link>
-            {idx === 4 ? <hr className="border-border" /> : <></>}
+            {idx === 5 ? <hr className="border-border" /> : <></>}
           </div>
         )
       }
       {
         session ? 
-        <button onClick={signOut} className='w-full'>
+        <button onClick={async ()=> await signOut()} className='w-full'>
           <li className="w-full lg:px-4 px-2 py-2 my-2 hover:bg-white hover:rounded-md hover:drop-shadow-md hover:text-black">
-            <span className="flex items-center"><FiLogOut /><span className='lg:block hidden'>&nbsp;&nbsp;&nbsp;Log out</span></span>
+            <span className="flex items-center"><FiLogOut /><span className='max-[1024px]:hidden'>&nbsp;&nbsp;&nbsp;Log out</span></span>
           </li>
         </button> : <></>
       }

@@ -15,7 +15,7 @@ const UserTable = ({ users, selectUser }: Users) => {
 
     const [row, setRow] = useState<users | null>(null);
 
-    useEffect(() => setDatas(users), []);
+    useEffect(() => setDatas(users), [users]);
 
     return (
         <div className="card usertable">
@@ -27,13 +27,14 @@ const UserTable = ({ users, selectUser }: Users) => {
                 dataKey="uid"
                 onRowSelect={(e: DataTableSelectEvent) => selectUser(e.data.uid)} 
                 metaKeySelection={false} 
-                tableStyle={{ minWidth: '30rem' }}
+                tableStyle={{ minWidth: '16rem' }}
             >
-                <Column field="id" header="S/N" className='min-w-[40px]'></Column>
-                <Column field="uid" header="User ID"></Column>
-                <Column field="name" header="Name"></Column>
-                <Column field="gender" header="Gender"></Column>
-                <Column field="age" header="Age"></Column>
+                <Column field="id" header="S/N" className='sm:text-base text-sm sm:py-2 sm:px-4'></Column>
+                <Column field="email" header="Email" className='sm:text-base text-sm sm:py-2 sm:px-4'></Column>
+                <Column field="phone" header="Phone Number" className='sm:text-base text-sm sm:py-2 sm:px-4'></Column>
+                <Column field="name" header="Name" className='sm:text-base text-sm sm:py-2 sm:px-4'></Column>
+                <Column field="gender" header="Gender" className='sm:text-base text-sm sm:py-2 sm:px-4'></Column>
+                <Column field="age" header="Age" className='sm:text-base text-sm sm:py-2 sm:px-4'></Column>
             </DataTable>
         </div>
     );

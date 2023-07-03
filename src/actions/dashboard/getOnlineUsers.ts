@@ -1,7 +1,7 @@
 import { user_state } from "@/types/users.type";
 import { status } from "@/types/status.type";
 
-export default async function getOnlineUsers() {
+export default async function getOnlineUsers(type:boolean,setUserState:any, setOnlineUsers:any) {
     
     const users = await fetch("/api/dashboard/onlineusers", {
         method: "POST",
@@ -20,7 +20,9 @@ export default async function getOnlineUsers() {
     data.data.map((item:status) => {
         if(item.is_online === true)
             count++;
-        let temp = item.address.split(',')[1];
+        if(item.address === null)
+            return;
+        let temp = !type?item.address.split(',')[1]:item.address.split(',')[2];
         let index = address.findIndex(({name, value}) => (name === temp))
         if(index === -1){//no same state
             address.push({name: temp, value: 1});
@@ -30,5 +32,6 @@ export default async function getOnlineUsers() {
         }
     })
     address.sort((a:user_state,b:user_state)=>(a.value<b.value ? 1 : -1))
-    return {is_online: count, address: address};
+    setUserState(address);
+    setOnlineUsers(count)
 }

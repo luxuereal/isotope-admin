@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChartOptions } from "chart.js";
 import {
   Chart as ChartJS,
@@ -36,6 +36,7 @@ const options: ChartOptions<"bubble"> = {
             if (context.parsed.y !== null) {
                 label += context.parsed._custom;
             }
+            label+='%'
             return label;
         }
       }
@@ -50,15 +51,14 @@ const options: ChartOptions<"bubble"> = {
           family: "Inter",
         },
         color: "#000000",
-        boxWidth: 14,
+        boxWidth: 16,
         useBorderRadius: true,
-        borderRadius: 7,
+        borderRadius: 8,
       },
     },
   },
   scales: {
     x: {
-      max: 2,
       type: "linear",
       grace: "5%",
       grid: {
@@ -79,7 +79,7 @@ const options: ChartOptions<"bubble"> = {
         // beginAtZero: true,
       },
       //   min: 0,
-      max: 0.5,
+      // max: 1,
       ticks: {
         // forces step size to be 50 units
         display: false,
@@ -88,11 +88,16 @@ const options: ChartOptions<"bubble"> = {
   },
 };
 
-
 interface props {
   data: any;
 }
 export const BubbleChart: React.FC<props> = ({ data }) => {
-  return <Bubble options={options} data={{ datasets: data }} />;
+  const [chart , setChart] = useState<any>(null);
+  useEffect(()=>{
+    let temp = data.filter((item:any) => (item.label !== 'Nan'));
+    setChart(temp);
+  },[data])
+  if(chart)
+    return <Bubble options={options} data={{ datasets: chart }} className="min-h-[200px]"/>;
 };
 export default BubbleChart;

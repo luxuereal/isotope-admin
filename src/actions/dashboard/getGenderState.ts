@@ -1,7 +1,7 @@
 import { profiles } from "@/types/profile.type";
 import { user_state } from "@/types/users.type";
 
-export default async function getGenderState() {
+export default async function getGenderState(setGenderState:any) {
     const response = await fetch("/api/dashboard/gender", {
         method: "POST",
         headers: {
@@ -17,10 +17,7 @@ export default async function getGenderState() {
     const result:Array<user_state> = [
         { name: "Female", value: 0 },
         { name: "Male", value: 0 },
-        { name: "Transgender", value: 0 },
-        { name: "Non-binary", value: 0 },
-        { name: "Third gender", value: 0 },
-        { name: "Gender neutral", value: 0 },
+        { name: "Nonbinary", value: 0 },
     ];
     const data = await response.json();
     data.data.map((item: profiles) => {
@@ -32,22 +29,11 @@ export default async function getGenderState() {
             case 'Man':
                 result[1].value++;
                 break;
-            case 'Transgender':
+            case 'Nonbinary':
                 result[2].value++;
-                break;
-            case 'Non-binary':
-                result[3].value++;
-                break;
-            case 'Third gender':
-                result[4].value++;
-                break;
-            case 'Gender neutral':
-                result[5].value++;
-                break;
-            default: 
                 break;
         }
     })
     result.sort((a:user_state,b:user_state)=>(a.value<b.value ? 1 : -1))
-    return result;   
+    setGenderState(result);
 }

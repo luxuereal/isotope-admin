@@ -11,9 +11,9 @@ export default async function handler(
   const supabase = createPagesBrowserClient<Database>();
   try {
     let { count, error, status } = await supabase
-        .from("users")
-        .select(`uid, disputes (reportee)`, { count: "exact", head: true })
-        .eq('report_status', '1')
+      .from("disputes")
+      .select(`*`, { count: "exact", head: true })
+      .eq('status', false)
 
     if (error && status !== 406) {
       throw error;

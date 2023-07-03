@@ -12,9 +12,9 @@ export default async function handler(
   try {
 
     let { data, error, status } =  await supabase
-      .from("users")
-      .select(`uid, disputes (reporter, reason), profiles (name, gender)`)
-      .eq('report_status', '1')
+      .from("disputes")
+      .select(`reportee, profiles (uid, name, gender, users (email, phone_number)), reporter, reason, users (email, phone_number)`)
+      .eq('status', false)
       .range(req.body.range.start, req.body.range.end)
 
     if (error && status !== 406) {

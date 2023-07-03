@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
+import { DataTable, DataTableSelectEvent } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
 import { Disputes } from '@/types/disputes.type';
 
 interface disputes {
     users: Disputes[] | any;
+    selectUser: (uid: string) => void;
 };
 
-const DisputesTable = ({ users }: disputes) => {
+const DisputesTable = ({ users, selectUser }: disputes) => {
     
     const [datas, setDatas] = useState<Disputes[]>([]);
 
     const [row, setRow] = useState<Disputes | null>(null);
 
-    useEffect(() => setDatas(users), []);
+    useEffect(() => setDatas(users), [users]);
 
     return (
       <div className="card usertable">
@@ -23,15 +24,17 @@ const DisputesTable = ({ users }: disputes) => {
           selectionMode="single" 
           selection={row!} 
           onSelectionChange={(e) => setRow(e.value as Disputes)} 
-          dataKey="uid"
+          dataKey="id"
+          onRowSelect={(e: DataTableSelectEvent) => selectUser(e.data.uid)} 
           metaKeySelection={false} 
           tableStyle={{ minWidth: '60rem' }}
         >
           <Column field="id" header="S/N"></Column>
-          <Column field="uid" header="User ID"></Column>
+          <Column field="email" header="Email"></Column>
+          <Column field="phone" header="Phone Number"></Column>
           <Column field="name" header="Name"></Column>
           <Column field="gender" header="Gender"></Column>
-          <Column field="reporter" header="Flagged by"></Column>
+          <Column field="by_info" header="Flagged by"></Column>
           <Column field="reason" header="Reason"></Column>
         </DataTable>
       </div>
